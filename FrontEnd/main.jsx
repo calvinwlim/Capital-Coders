@@ -1,9 +1,8 @@
-/** @format */
-
 import React, { StrictMode } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 
+import './main.css';
 import HomePage from "./HomePage/HomePage";
 import FormExplorerPage from "./FormExplorerPage/FormExplorerPage";
 

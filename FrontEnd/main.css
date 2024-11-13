@@ -6,12 +6,13 @@
 }
 
 :root {
-  --primary-color: hsl(0, 0%, 15%);
-  --secondary-color: hsl(33, 41%, 59%);
-  --inner-font-color: hsl(0, 0%, 100%);
-  --darker-secondary-color: hsl(33, 28%, 43%);
-  --even-darker-secondary-color: hsla(33, 28%, 33%, 0.608);
+  --primary-color: hsl(222, 20%, 13%);
+  --secondary-color: hsl(207, 100%, 46%);
+  --inner-font-color: hsl(0, 0%, 95%);
+  --darker-secondary-color: hsl(207, 70%, 36%);
+  --even-darker-secondary-color: hsla(207, 70%, 26%, 0.7);
 }
+
 
 /* Ensure both html and body fill the viewport height */
 body {
