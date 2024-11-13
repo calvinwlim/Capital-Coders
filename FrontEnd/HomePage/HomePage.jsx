@@ -1,73 +1,51 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./homePage.css";
+
+import './homePage.css'
 
 const HomePage = () => {
-	const [searchTerm, setSearchTerm] = useState("");
+	const [searchValue, setSearchValue] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
 	const navigate = useNavigate();
 
-	const fetchSuggestions = async (query) => {
+	const handleFormSubmission = async (event) => {
+		event.preventDefault();
 		try {
-		  const response = await fetch(`http://localhost:3000/api/suggest`, {
-			method: "POST",
-			headers: {
-			  "Content-Type": "application/json"
-			},
-			body: JSON.stringify({ company_name: query })
-		  });
-	
-		  if (response.ok) {
-			const data = await response.json();
-			setSuggestions(data.slice(0, 10));
-		  }
+			const response = await fetch(`http://localhost:3000/getCompanyCIK`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ companyName: searchValue }),
+			});
+
+			if (response.ok) {
+				const cik = await response.json();
+				console.log("Returned CIK = ", cik);
+				navigate(`/FormExplorerPage/${cik}`);
+			}
 		} catch (error) {
-		  console.error("Error fetching suggestions:", error);
+			console.log("HomePage.jsx: Error fetching company CIK", error);
 		}
 	};
-	
-	const handleInputChange = (event) => {
-		const query = event.target.value;
-		setSearchTerm(query);
-	
-		if (query.length > 0) {
-		  fetchSuggestions(query.toUpperCase());
-		} else {
-		  setSuggestions([]);
-		}
-	  };
 
-	const handleSearch = async (event) => {
-		event.preventDefault();
-	
+	const handleInputChange = async (event) => {
+		const currentSearchValue = event.target.value;
+		setSearchValue(currentSearchValue);
+
 		try {
-		  const response = await fetch(`http://localhost:3000/api/search`, {
-			method: "POST",
-			headers: {
-			  "Content-Type": "application/json"
-			},
-			body: JSON.stringify({ company_name: searchTerm })
-		  });
-	
-		  if (response.ok) {
-			const data = await response.json();
-			const cik = data.cik;
-		
-			//if (cik) {
-			//navigate(`/filter/${cik}`); // Redirect to the FilterPage with the CIK
-			//}
-	
-			if (cik) {
-			  console.log(cik);
-			  navigate(`/displayReports/${cik}`);
+			const response = await fetch("http://localhost:3000/suggestCompanies", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ companyName: currentSearchValue }),
+			});
+
+			if (response.ok) {
+				const data = await response.json();
+				setSuggestions(data);
 			}
-		  } else {
-			console.error("Company not found.");
-		  }
 		} catch (error) {
-		  console.error("Error fetching CIK:", error);
+			console.log("HomePage.jsx: Error fetching company suggestions", error);
 		}
-	  };
+	};
 
 	return (
 		<div id="home-page">
@@ -77,12 +55,12 @@ const HomePage = () => {
 				<a href="Favorites">Favorites</a>
 			</div>
 			<div id="home-page-search-bar">
-				<form id="home-page-form" onSubmit={handleSearch}>
+				<form id="home-page-form" onSubmit={handleFormSubmission}>
 					<input
 						type="search"
 						placeholder="Search..."
-						value={searchTerm}
-						list="company-suggestions"
+						value={searchValue}
+						list="home-page-company-suggestions"
 						onChange={handleInputChange}
 						aria-label="Search"
 					/>
