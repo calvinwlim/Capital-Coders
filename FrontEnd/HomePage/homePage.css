@@ -17,7 +17,6 @@
   justify-content: space-evenly;
   padding: 1em;
   background-color: var(--secondary-color);
-  text-shadow: 2px 2px 0 hsl(0, 0%, 15%), -2px -2px 0 hsl(0, 0%, 15%), -2px 2px 0 hsl(0, 0%, 15%), 2px -2px 0 hsl(0, 0%, 15%);
 }
 
 #navigation-bar a {
@@ -28,16 +27,16 @@
   letter-spacing: 0.05rem;
 }
 
-#homepage-searchbar {
+#home-page-search-bar {
   padding-top: 20%;
 }
 
-#homepage-form {
+#home-page-form {
   display: flex;
   gap: 2rem;
 }
 
-#homepage-form input[type="search"] {
+#home-page-form input[type="search"] {
   width: 25rem;
   padding: 0.75rem;
   font-size: 1.25rem;
@@ -45,7 +44,7 @@
   border: hsl(0, 0%, 0%);
 }
 
-#homepage-form button {
+#home-page-form button {
   padding: 1rem 1.5rem;
   font-size: 1.25rem;
   cursor: pointer;
@@ -55,5 +54,4 @@
   color: var(--inner-font-color);
   letter-spacing: 0.125rem;
   font-weight: 550;
-  text-shadow: 2px 2px 0 hsl(0, 0%, 15%), -2px -2px 0 hsl(0, 0%, 15%), -2px 2px 0 hsl(0, 0%, 15%), 2px -2px 0 hsl(0, 0%, 15%);
 }
