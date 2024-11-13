@@ -24,9 +24,7 @@ const FormExplorerPage = () => {
 	}, [cik]);
 
 	useEffect(() => {
-		setFormsDisplayed(
-			formType === "all" ? forms : forms.filter((item) => item.form === formType)
-		);
+		setFormsDisplayed(formType === "all" ? forms : forms.filter((item) => item.form === formType));
 	}, [formType, forms]);
 
 	const handleButtonClick = (accessionNumber, reportDate, form) => {

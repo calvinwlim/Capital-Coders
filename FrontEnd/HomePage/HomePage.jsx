@@ -1,7 +1,7 @@
-/** @format */
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import './homePage.css'
 
 const HomePage = () => {
 	const [searchValue, setSearchValue] = useState("");
