@@ -1,0 +1,59 @@
+#home-page {
+  width: 100vw;
+  height: 100vh;
+  background: var(--primary-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+}
+
+#navigation-bar {
+  position: fixed;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 1em;
+  background-color: var(--secondary-color);
+  text-shadow: 2px 2px 0 hsl(0, 0%, 15%), -2px -2px 0 hsl(0, 0%, 15%), -2px 2px 0 hsl(0, 0%, 15%), 2px -2px 0 hsl(0, 0%, 15%);
+}
+
+#navigation-bar a {
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--inner-font-color);
+  letter-spacing: 0.05rem;
+}
+
+#homepage-searchbar {
+  padding-top: 20%;
+}
+
+#homepage-form {
+  display: flex;
+  gap: 2rem;
+}
+
+#homepage-form input[type="search"] {
+  width: 25rem;
+  padding: 0.75rem;
+  font-size: 1.25rem;
+  border-radius: 20px;
+  border: hsl(0, 0%, 0%);
+}
+
+#homepage-form button {
+  padding: 1rem 1.5rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+  border-radius: 20px;
+  background: var(--secondary-color);
+  border: hsl(0, 0%, 0%);
+  color: var(--inner-font-color);
+  letter-spacing: 0.125rem;
+  font-weight: 550;
+  text-shadow: 2px 2px 0 hsl(0, 0%, 15%), -2px -2px 0 hsl(0, 0%, 15%), -2px 2px 0 hsl(0, 0%, 15%), 2px -2px 0 hsl(0, 0%, 15%);
+}
