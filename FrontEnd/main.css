@@ -6,18 +6,16 @@
 }
 
 :root {
-  --primary-color: hsl(222, 20%, 13%);
-  --secondary-color: hsl(207, 100%, 46%);
-  --inner-font-color: hsl(0, 0%, 95%);
-  --darker-secondary-color: hsl(207, 70%, 36%);
-  --even-darker-secondary-color: hsla(207, 70%, 26%, 0.7);
+	--primary-color: hsl(222, 20%, 10%);
+	--secondary-color: hsl(207, 100%, 50%);
+	--inner-font-color: hsl(0, 0%, 95%);
+	--accent-color: hsl(43, 89%, 58%);
+	--border-color: hsla(0, 0%, 100%, 0.1);
 }
 
-
-/* Ensure both html and body fill the viewport height */
 body {
   height: 100%;
-  max-width: 100vw; /* Prevent horizontal overflow */
-  overflow-y: auto; /* Allow vertical scrolling */
-  overflow-x: hidden; /* Prevent horizontal scrolling */
+  max-width: 100vw;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
