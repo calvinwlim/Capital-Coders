@@ -6,6 +6,7 @@ import './homePage.css';
 const HomePage = () => {
 	const [searchValue, setSearchValue] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
+	const [showSuggestions, setShowSuggestions] = useState(false);
 	const navigate = useNavigate();
 
 	const handleFormSubmission = async (event) => {
@@ -40,10 +41,16 @@ const HomePage = () => {
 			if (response.ok) {
 				const data = await response.json();
 				setSuggestions(data);
+				setShowSuggestions(true);
 			}
 		} catch (error) {
 			console.log("Error fetching company suggestions", error);
 		}
+	};
+
+	const handleSuggestionClick = (suggestion) => {
+		setSearchValue(suggestion);
+		setShowSuggestions(false);
 	};
 
 	return (
@@ -66,20 +73,30 @@ const HomePage = () => {
 						type="search"
 						placeholder="Enter company name..."
 						value={searchValue}
-						list="home-page-company-suggestions"
 						onChange={handleInputChange}
+						onFocus={() => setShowSuggestions(true)}
+						onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
 						aria-label="Search"
 					/>
 					<button type="submit">Go</button>
 				</form>
-				<datalist id="home-page-company-suggestions">
-					{suggestions.map((suggestion, index) => (
-						<option key={index} value={suggestion} />
-					))}
-				</datalist>
+				{/* Custom Suggestions Dropdown */}
+				{showSuggestions && suggestions.length > 0 && (
+					<ul id="suggestions-list">
+						{suggestions.map((suggestion, index) => (
+							<li
+								key={index}
+								onMouseDown={() => handleSuggestionClick(suggestion)}
+							>
+								{suggestion}
+							</li>
+						))}
+					</ul>
+				)}
 			</div>
 		</div>
 	);
 };
 
 export default HomePage;
+

@@ -16,7 +16,6 @@
 	display: flex;
 	justify-content: right;
 	padding: 1.0em 0;
-	backdrop-filter: blur(10px);
 }
 
 #navigation-bar a {
@@ -29,11 +28,10 @@
 	width: 2.5rem;
 	height: 2.5rem;
 	border-radius: 50%;
-	transition: background 0.3s ease;
 }
 
 #navigation-bar a:hover {
-	background: var(--secondary-color);
+	color: var(--accent-color);
 }
 
 #home-page-search-bar {
@@ -41,6 +39,7 @@
 	flex-direction: column;
 	align-items: center;
 	margin-top: 15vh;
+	position: relative;
 }
 
 #home-page-search-bar h1 {
@@ -53,6 +52,7 @@
 	display: flex;
 	align-items: center;
 	gap: 1.5rem;
+	position: relative;
 }
 
 #home-page-form input[type="search"] {
@@ -91,4 +91,35 @@
 #home-page-form button:hover {
 	background: var(--accent-color);
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Custom Suggestions Dropdown */
+#suggestions-list {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 30rem;
+	margin-top: 0.5rem;
+	padding: 0;
+	background-color: var(--primary-color);
+	border: 1px solid var(--border-color);
+	border-radius: 10px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+	max-height: 15rem;
+	overflow-y: auto;
+	z-index: 1000;
+	list-style: none;
+}
+
+#suggestions-list li {
+	padding: 0.75rem 1rem;
+	font-size: 1.25rem;
+	color: var(--inner-font-color);
+	cursor: pointer;
+	transition: background 0.2s ease;
+}
+
+#suggestions-list li:hover {
+	background-color: var(--secondary-color);
+	color: var(--inner-font-color);
 }
