@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FiUser, FiClock, FiStar } from "react-icons/fi"; // Using icons for navigation
-import './homePage.css';
+import { FiUser, FiClock, FiStar } from "react-icons/fi";
+import './HomePage.css';
 
 const HomePage = () => {
 	const [searchValue, setSearchValue] = useState("");
