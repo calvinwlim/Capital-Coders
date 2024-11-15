@@ -6,6 +6,7 @@ import './main.css';
 import HomePage from "./HomePage/HomePage";
 import LoginPage from "./LoginPage/LoginPage";
 import FormExplorerPage from "./FormExplorerPage/FormExplorerPage";
+import AnnualReportAnalysisPage from "./AnnualReportAnalysisPage/AnnualReportAnalysisPage";
 
 createRoot(document.getElementById("root")).render(
 	<StrictMode>
@@ -14,10 +15,10 @@ createRoot(document.getElementById("root")).render(
 				<Route path="/" element={<HomePage />} />
 				<Route path="/FormExplorerPage/:cik" element={<FormExplorerPage />} />
 				<Route path="/login" element={<LoginPage />} />
-				{/* <Route
+				<Route
 					path="/AnnualReportAnalysis/:cik/:accessionNumber/:ticker/:date/:form"
 					element={<AnnualReportAnalysisPage />}
-				/> */}
+				/>
 			</Routes>
 		</Router>
 	</StrictMode>
