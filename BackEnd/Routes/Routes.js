@@ -1,11 +1,9 @@
-/** @format */
-
 import express from "express";
 
-import { getCompanySuggestions } from "../DatabaseMethods/GetCompanySuggestions.js";
-import { getCompanyCIK } from "../DatabaseMethods/GetCompanyCIK.js";
-import { fetchFormSection } from "../DatabaseMethods/GetAnnualReportData.js";
-import { fetchFilingSummary } from "../DatabaseMethods/GetFilingSummary.js";
+import { getCompanySuggestions } from "../Controller/GetCompanySuggestions.js";
+import { getCompanyCIK } from "../Controller/GetCompanyCIK.js";
+import { fetchFormSection } from "../Controller/GetAnnualReportData.js";
+import { fetchFilingSummary } from "../Controller/GetFilingSummary.js";
 
 const expressRouter = express.Router();
 
