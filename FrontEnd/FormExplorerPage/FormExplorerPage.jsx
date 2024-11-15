@@ -1,12 +1,11 @@
-/** @format */
-
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchForms } from "./FetchForms";
+import "./FormExplorerPage.css";
 
 const FormExplorerPage = () => {
 	const { cik } = useParams();
-	const navigate = useNavigate(); // Navigation hook
+	const navigate = useNavigate();
 
 	const [forms, setForms] = useState([]);
 	const [formsDisplayed, setFormsDisplayed] = useState([]);
@@ -35,28 +34,56 @@ const FormExplorerPage = () => {
 		);
 	};
 
-	if (isLoading) return <div>Loading data, please wait...</div>;
+	if (isLoading) return <div className="loading">Loading data, please wait...</div>;
 
 	return (
 		<div id="form-explorer-page">
-			<div id="navigation-bar">
-				<a href="MyProfile">My Profile</a>
-				<a href="History">History</a>
-				<a href="Favorites">Favorites</a>
+			<div className="header">
+				<h1>{`${cik} Form Directory`}</h1>
+				<div className="counters">
+					<div className="counter">
+						<p>Total Forms</p>
+						<span>{forms.length}</span>
+					</div>
+					<div className="counter">
+						<p>Quarterly Reports</p>
+						<span>{forms.filter((form) => form.form === "10-Q").length}</span>
+					</div>
+					<div className="counter">
+						<p>Annual Reports</p>
+						<span>{forms.filter((form) => form.form === "10-K").length}</span>
+					</div>
+				</div>
 			</div>
-			<h1>Form Directory</h1>
-			<div id="form-explorer-page-filter-section">
-				<button onClick={() => setFormType("all")}>All</button>
-				<button onClick={() => setFormType("10-Q")}>Quarterly</button>
-				<button onClick={() => setFormType("10-K")}>Annual</button>
+			<div className="filter-section">
+				<button
+					className={formType === "all" ? "active" : ""}
+					onClick={() => setFormType("all")}
+				>
+					All
+				</button>
+				<button
+					className={formType === "10-Q" ? "active" : ""}
+					onClick={() => setFormType("10-Q")}
+				>
+					Quarterly
+				</button>
+				<button
+					className={formType === "10-K" ? "active" : ""}
+					onClick={() => setFormType("10-K")}
+				>
+					Annual
+				</button>
 			</div>
-			<div id="form-explorer-page-all-forms-section">
+			<div className="table-container">
 				<table>
 					<thead>
-						<th>Form</th>
-						<th>Report Date</th>
-						<th>Accession Number</th>
-						<th>Action</th>
+						<tr>
+							<th>Form</th>
+							<th>Report Date</th>
+							<th>Accession Number</th>
+							<th>Action</th>
+						</tr>
 					</thead>
 					<tbody>
 						{formsDisplayed.length > 0 ? (
@@ -67,6 +94,7 @@ const FormExplorerPage = () => {
 									<td>{item.accessionNumber}</td>
 									<td>
 										<button
+											className="view-report-button"
 											onClick={() =>
 												handleButtonClick(
 													item.accessionNumber,
@@ -82,7 +110,7 @@ const FormExplorerPage = () => {
 							))
 						) : (
 							<tr>
-								<td colSpan="4">No Data</td>
+								<td colSpan="4" className="no-data">No Data</td>
 							</tr>
 						)}
 					</tbody>
