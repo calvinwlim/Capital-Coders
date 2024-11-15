@@ -56,7 +56,7 @@ const HomePage = () => {
 	return (
 		<div id="home-page">
 			<div id="navigation-bar">
-				<a href="MyProfile" aria-label="My Profile">
+				<a href="Login" aria-label="Login">
 					<FiUser />
 				</a>
 				<a href="History" aria-label="History">

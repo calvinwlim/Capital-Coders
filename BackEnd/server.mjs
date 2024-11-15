@@ -3,14 +3,14 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { pool } from "./Database/Database.js";
 import routes from "./Routes/Routes.js";
-import cors from "cors"; // Use import for cors
+import cors from "cors";
 
 const currentFile = fileURLToPath(import.meta.url);
 const currentDirectory = path.dirname(currentFile);
 const app = express();
 
 app.use(cors({
-    origin: 'http://127.0.0.1:5174' // Allow requests from this origin
+    origin: 'http://127.0.0.1:5173' // Allow requests from this origin
 }));
 
 // Middleware to handle JSON requests
