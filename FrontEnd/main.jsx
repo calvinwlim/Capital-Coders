@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 
 import './main.css';
 import HomePage from "./HomePage/HomePage";
+import LoginPage from "./LoginPage/LoginPage";
 import FormExplorerPage from "./FormExplorerPage/FormExplorerPage";
 
 createRoot(document.getElementById("root")).render(
@@ -12,6 +13,7 @@ createRoot(document.getElementById("root")).render(
 			<Routes>
 				<Route path="/" element={<HomePage />} />
 				<Route path="/FormExplorerPage/:cik" element={<FormExplorerPage />} />
+				<Route path="/login" element={<LoginPage />} />
 				{/* <Route
 					path="/AnnualReportAnalysis/:cik/:accessionNumber/:ticker/:date/:form"
 					element={<AnnualReportAnalysisPage />}
