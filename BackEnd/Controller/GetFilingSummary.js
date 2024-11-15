@@ -30,7 +30,7 @@ export const fetchFilingSummary = async (request, response) => {
 		const databaseQuery = `
         SELECT filing_summary
         FROM all_forms
-        WHERE accession_number = $1 AND cik = $2;`;
+        WHERE accession_number = $1 AND cik = $2;`;/Users/calvinlim/Documents/GitHub/Capital-Coders-2/BackEnd/DatabaseMethods/GetAnnualReportData.js
 
 		const databaseReply = await pool.query(databaseQuery, [accessionNumber, cik]);
 
