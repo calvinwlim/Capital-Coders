@@ -1,9 +1,8 @@
+/** @format */
+
 export const fetchFormSection = async (cik, accessionNumber, reportSection, setStatement) => {
 	try {
-		const url = `http://localhost:3000/getFormSection`;
-
-		console.log("Request URL:", url);
-		console.log("Request Body:", { cik, accessionNumber, reportSection });
+		const url = `http://localhost:3000/getCompanyFormSection`;
 
 		const response = await fetch(url, {
 			method: "POST",
@@ -18,13 +17,11 @@ export const fetchFormSection = async (cik, accessionNumber, reportSection, setS
 			}),
 		});
 
-		console.log("Response Status:", response.status);
-
 		if (response.ok) {
 			const data = await response.json();
 			setStatement(data);
 		} else {
-			console.error("Failed to fetch data. Status:", response.status);
+			console.error("FetchFormSection.js: Failed to fetch data. Status:", response.status);
 		}
 	} catch (error) {
 		console.error("FetchFormSection.js: Error fetching data", error);

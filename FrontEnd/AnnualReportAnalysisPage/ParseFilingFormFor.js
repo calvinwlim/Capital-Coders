@@ -1,3 +1,5 @@
+/** @format */
+
 export const parseFilingFormFor = async (filingSummary, argsArray) => {
 	try {
 		const parser = new DOMParser();

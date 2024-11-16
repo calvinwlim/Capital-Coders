@@ -6,11 +6,11 @@
 }
 
 :root {
-	--primary-color: hsl(222, 20%, 10%);
-	--secondary-color: hsl(207, 100%, 50%);
-	--inner-font-color: hsl(0, 0%, 95%);
-	--accent-color: hsl(43, 89%, 58%);
-	--border-color: hsla(0, 0%, 100%, 0.1);
+  --primary-color: hsl(222, 20%, 10%);
+  --secondary-color: hsl(207, 100%, 50%);
+  --inner-font-color: hsl(0, 0%, 95%);
+  --accent-color: hsl(43, 89%, 58%);
+  --border-color: hsla(0, 0%, 100%, 0.1);
 }
 
 body {

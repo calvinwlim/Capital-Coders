@@ -1,3 +1,5 @@
+/** @format */
+
 import { pool } from "../Database/Database.js";
 
 const fetchReport = async (cik, accessionNumber, section) => {
@@ -27,11 +29,11 @@ export const fetchFormSection = async (request, response) => {
 
 	try {
 		const databaseQuery = `
-        SELECT form_data
-        FROM all_forms
-        WHERE accession_number = $1 AND cik = $2;`;
+        SELECT all_sections_html
+        FROM reports_annual
+        WHERE cik = $1 AND accession_number = $2;`;
 
-		const databaseReply = await pool.query(databaseQuery, [accessionNumber, cik]);
+		const databaseReply = await pool.query(databaseQuery, [cik, accessionNumber]);
 
 		if (databaseReply.rows.length > 0) {
 			let annualReport = databaseReply.rows[0].form_data;
@@ -57,8 +59,8 @@ export const fetchFormSection = async (request, response) => {
 					annualReport[reportSection] = reportSectionData;
 
 					const updateQuery = `
-						UPDATE all_forms
-						SET form_data = $1
+						UPDATE reports_annual
+						SET all_sections_html = $1
 						WHERE accession_number = $2 AND cik = $3;`;
 					await pool.query(updateQuery, [JSON.stringify(annualReport), accessionNumber, cik]);
 					response.json(reportSectionData);
