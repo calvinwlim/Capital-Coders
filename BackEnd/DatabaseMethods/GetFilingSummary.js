@@ -1,3 +1,5 @@
+/** @format */
+
 import { pool } from "../Database/Database.js";
 
 export const fetchFilingSummaryFromSEC = async (cik, accessionNumber) => {
@@ -28,11 +30,10 @@ export const fetchFilingSummary = async (request, response) => {
 
 	try {
 		const databaseQuery = `
-        SELECT filing_summary
-        FROM all_forms
-        WHERE accession_number = $1 AND cik = $2;`;/Users/calvinlim/Documents/GitHub/Capital-Coders-2/BackEnd/DatabaseMethods/GetAnnualReportData.js
+        SELECT filing_summary FROM reports_annual
+        WHERE cik = $1 AND accession_number = $2;`;
 
-		const databaseReply = await pool.query(databaseQuery, [accessionNumber, cik]);
+		const databaseReply = await pool.query(databaseQuery, [cik, accessionNumber]);
 
 		// Check if there is an existing row for the form
 		if (databaseReply.rows.length > 0) {
@@ -48,11 +49,11 @@ export const fetchFilingSummary = async (request, response) => {
 
 		if (filingSummaryData !== null) {
 			const insertQuery = `
-				INSERT INTO all_forms (accession_number, cik, filing_summary)
+				INSERT INTO reports_annual (cik, accession_number, filing_summary)
 				VALUES ($1, $2, $3);`;
 
 			// Insert new row into the database with the fetched data
-			await pool.query(insertQuery, [accessionNumber, cik, JSON.stringify(filingSummaryData)]);
+			await pool.query(insertQuery, [cik, accessionNumber, JSON.stringify(filingSummaryData)]);
 
 			return response.json(filingSummaryData);
 		} else {
