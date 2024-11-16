@@ -1,5 +1,3 @@
-/** @format */
-
 import express from "express";
 
 import { getCompanySuggestions } from "../DatabaseMethods/GetCompanySuggestions.js";

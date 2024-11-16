@@ -1,5 +1,3 @@
-/** @format */
-/** @format */
 
 export const fetchFilingSummary = async (cik, accessionNumber, setFilingSummary) => {
 	try {

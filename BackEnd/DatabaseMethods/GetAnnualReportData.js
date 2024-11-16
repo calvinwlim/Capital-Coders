@@ -1,5 +1,3 @@
-/** @format */
-
 import { pool } from "../Database/Database.js";
 
 const fetchReport = async (cik, accessionNumber, section) => {

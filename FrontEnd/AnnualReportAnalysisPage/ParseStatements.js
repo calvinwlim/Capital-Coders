@@ -1,4 +1,3 @@
-/** @format */
 
 export const parseIncomeStatement = async (incomeStatement) => {
 	let metrics = [];

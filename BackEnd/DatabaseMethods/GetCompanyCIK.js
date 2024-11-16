@@ -1,5 +1,3 @@
-/** @format */
-
 import { pool } from "../Database/Database.js";
 
 export const getCompanyCIK = async (request, response) => {

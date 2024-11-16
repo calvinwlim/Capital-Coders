@@ -1,4 +1,3 @@
-/** @format */
 //import { pool } from "../Database/Database.js";
 import axios from "axios";
 import AdmZip from "adm-zip";

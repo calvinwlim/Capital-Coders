@@ -1,4 +1,3 @@
-/** @format */
 
 export const fetchFormSection = async (cik, accessionNumber, reportSection, setStatement) => {
 	try {
