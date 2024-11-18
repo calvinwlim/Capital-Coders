@@ -8,6 +8,9 @@ import { fileURLToPath } from "url";
 import { pool } from "./Database/Database.js";
 import routes from "./Routes/Routes.js";
 
+import { updateCompanyFactsTable } from "./BulkDataFetchMethods/FetchCompanyFacts.js";
+import { updateSubmissionsTable } from "./BulkDataFetchMethods/FetchSubmissions.js";
+
 const currentFile = fileURLToPath(import.meta.url);
 const currentDirectory = path.dirname(currentFile);
 
@@ -29,6 +32,10 @@ pool.query("SELECT NOW()", (error, response) => {
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+  //Only run once per day to refresh the company_us_gaap_data table
+  //updateCompanyFactsTable();
+  //Only run once per day to refersh the company_submission_data table
+  //updateSubmissionsTable();
 });
 
 //"320193", "000032019324000123", "R3"
