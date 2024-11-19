@@ -55,7 +55,7 @@ export const fetchFilingSummary = async (request, response) => {
 
       return response.json(filingSummaryData);
     } else {
-      console.error("Failed to fetch filing summary from SEC.");
+      console.error("Filing summary not found on SEC website.");
       return response.status(404).json({ error: "Filing summary not found on SEC website." });
     }
   } catch (error) {

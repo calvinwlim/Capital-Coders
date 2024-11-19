@@ -138,3 +138,31 @@ tbody td {
     padding: 40px;
     color: #666;
 }
+
+#form-explorer-toggle {
+    text-align: center;
+    margin: 20px 0;
+}
+  
+.toggle-button {
+    background-color: var(--secondary-color);
+    border: none;
+    color: var(--inner-font-color);
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.toggle-button:hover {
+    background-color: var(--accent-color);
+}
+
+.collapsible-section {
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
