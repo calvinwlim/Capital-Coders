@@ -1,5 +1,3 @@
-/** @format */
-
 import { pool } from "../Database/Database.js"; // Import database pool
 
 export const insertOrUpdateCompanyData = async (cik, companyName, revenueForSuggestions, companyFacts) => {
