@@ -9,6 +9,7 @@ import IncomeStatement from "./incomeStatement";
 import BalanceSheet from "./balanceSheet";
 import CashFlow from "./cashFlow";
 import FormExplorer from "../FormExplorer/FormExplorer";
+import PriceChart from "../PriceChart/PriceChart";
 
 import "./companyPage.css";
 
@@ -21,31 +22,6 @@ export default function CompanyPage() {
   useEffect(() => {
     if (cik) fetchCompanyData(cik, setCompanyData);
   }, [cik]);
-
-  useEffect(() => {
-    const chartContainer = document.getElementById("chart-container");
-    if (chartContainer) {
-      const chartOptions = {
-        layout: {
-          textColor: "black",
-          background: { type: "solid", color: "white" },
-        },
-        width: chartContainer.offsetWidth,
-        height: 300, // Set chart height
-      };
-      const chart = createChart(chartContainer, chartOptions);
-      const lineSeries = chart.addLineSeries({ color: "#2962FF" });
-      const data = [{ value: 0, time: 1642425322 }, { value: 8, time: 1642511722 }, { value: 10, time: 1642598122 }, { value: 20, time: 1642684522 }, { value: 3, time: 1642770922 }, { value: 43, time: 1642857322 }, { value: 41, time: 1642943722 }, { value: 43, time: 1643030122 }, { value: 56, time: 1643116522 }, { value: 46, time: 1643202922 }];
-  
-      lineSeries.setData(data);
-      
-      chart.timeScale().fitContent();
-
-      return () => {
-        chart.remove();
-      };
-    }
-  }, []);
 
   const toggleFormExplorer = () => {
     setIsFormExplorerVisible(!isFormExplorerVisible);
@@ -69,7 +45,9 @@ export default function CompanyPage() {
         <h2>Company Data for CIK: {cik}</h2>
       </div>
 
-      {/* <div id="company-page-all-tables">
+      <PriceChart />
+
+      <div id="company-page-all-tables">
         {selectedSections.incomeStatement && (
           <div id="income-statement-table" className="company-page-all-table-styles">
             <h3>Income Statement</h3>
@@ -92,9 +70,7 @@ export default function CompanyPage() {
           <h3>Selected Fields Table</h3>
           <FieldTable companyData={companyData} selectedFields={selectedFields} />
         </div>
-      </div> */}
-
-      <div id="chart-container" style={{ width: "90%", margin: "2rem auto" }}></div>
+      </div>
 
       <div id="form-explorer-toggle">
         <button onClick={toggleFormExplorer} className="toggle-button">
