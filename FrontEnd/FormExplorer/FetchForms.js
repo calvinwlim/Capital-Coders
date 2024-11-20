@@ -1,5 +1,3 @@
-/** @format */
-
 export const fetchForms = async (cik, setForms, setTicker) => {
 	try {
 		const allSubmissionsURL = `https://data.sec.gov/submissions/CIK${cik}.json`;

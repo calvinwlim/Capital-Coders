@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchForms } from "./FetchForms";
-import "./FormExplorerPage.css";
+import "./FormExplorer.css";
 
-const FormExplorerPage = () => {
-  const { cik } = useParams();
+const FormExplorer = ({ cik }) => {
   const navigate = useNavigate();
-
   const [forms, setForms] = useState([]);
   const [formsDisplayed, setFormsDisplayed] = useState([]);
   const [formType, setFormType] = useState("all");
@@ -16,7 +14,7 @@ const FormExplorerPage = () => {
   useEffect(() => {
     const fetchAllForms = async () => {
       setIsLoading(true);
-      fetchForms(cik, setForms, setTicker);
+      await fetchForms(cik, setForms, setTicker);
       setIsLoading(false);
     };
     fetchAllForms();
@@ -102,4 +100,4 @@ const FormExplorerPage = () => {
   );
 };
 
-export default FormExplorerPage;
+export default FormExplorer;

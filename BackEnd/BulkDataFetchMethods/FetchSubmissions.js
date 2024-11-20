@@ -1,5 +1,3 @@
-/** @format */
-
 //import { pool } from "../Database/db.js";
 
 import axios from "axios";

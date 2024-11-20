@@ -20,7 +20,8 @@ const HomePage = () => {
 
 			if (response.ok) {
 				const cik = await response.json();
-				navigate(`/FormExplorerPage/${cik}`);
+				navigate(`/CompanyPage`, { state: { cik } });
+
 			}
 		} catch (error) {
 			console.log("Error fetching company CIK", error);

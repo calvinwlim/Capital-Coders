@@ -1,5 +1,3 @@
-/** @format */
-
 import { pool } from "../Database/Database.js";
 
 export const getCompanySuggestions = async (request, response) => {
