@@ -11,7 +11,7 @@ const PriceChart = ({ ticker }) => {
       try {
         const response = await axios.get("https://api.twelvedata.com/eod", {
           params: {
-            symbol: ticker,
+            symbol: 'AAPL',
             apikey: "9a357411dd584b999d258360b14f3f60",
           },
         });

@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { FiUser, FiClock, FiStar } from "react-icons/fi";
 import { createChart } from 'lightweight-charts';
 import { fetchCompanyData } from "./utils";
+import axios from "axios";
 
 import FieldTable from "./fieldTable";
 import IncomeStatement from "./incomeStatement";
@@ -16,16 +17,41 @@ import "./companyPage.css";
 export default function CompanyPage() {
   const location = useLocation();
   const { cik, ticker, selectedFields = [], selectedSections = {} } = location.state || {};  
+  const [tickerData, setTickerData] = useState(null);
   const [companyData, setCompanyData] = useState(null);
   const [isFormExplorerVisible, setIsFormExplorerVisible] = useState(false);
+
+  const fetchTickerData = async (ticker) => {
+    try {
+      const response = await axios.get("https://api.twelvedata.com/time_series", {
+        params: {
+          symbol: 'AAPL',
+          interval: "1min",
+          apikey: "9a357411dd584b999d258360b14f3f60",
+        },
+      });
   
+      if (response.data && response.data.values) {
+        setTickerData(response.data.values);
+      } else {
+        console.error("Error: Unexpected API response", response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching ticker data:", error);
+    }
+  };
+  
+  const toggleFormExplorer = () => {
+    setIsFormExplorerVisible(!isFormExplorerVisible);
+  };
+
   useEffect(() => {
     if (cik) fetchCompanyData(cik, setCompanyData);
   }, [cik]);
 
-  const toggleFormExplorer = () => {
-    setIsFormExplorerVisible(!isFormExplorerVisible);
-  };
+  useEffect(() => {
+    if (ticker) fetchTickerData(ticker);
+  }, [ticker]);
 
   return (
     <div id="company-page">
@@ -43,6 +69,35 @@ export default function CompanyPage() {
 
       <div id="company-page-title">
         <h2>Company Data for {ticker}</h2>
+      </div>
+
+      <div id="ticker-widgets" className="ticker-widgets">
+        {tickerData && tickerData.length > 0 ? (
+          <div className="widget-container">
+            <div className="widget">
+              <h4>Open</h4>
+              <p>{tickerData[0].open}</p>
+            </div>
+            <div className="widget">
+              <h4>High</h4>
+              <p>{tickerData[0].high}</p>
+            </div>
+            <div className="widget">
+              <h4>Low</h4>
+              <p>{tickerData[0].low}</p>
+            </div>
+            <div className="widget">
+              <h4>Close</h4>
+              <p>{tickerData[0].close}</p>
+            </div>
+            <div className="widget">
+              <h4>Volume</h4>
+              <p>{tickerData[0].volume}</p>
+            </div>
+          </div>
+        ) : (
+          <p>Loading ticker data...</p>
+        )}
       </div>
 
       <PriceChart ticker={ticker} />
