@@ -25,5 +25,3 @@ createRoot(document.getElementById("root")).render(
 		</Router>
 	</StrictMode>
 );
-
-//navigate(`/displayReports/${cik}/${accessionNumber}/${ticker}/${formattedDate}/${form}`);

@@ -1,0 +1,53 @@
+#annual-report-analysis-page {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .counters {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .counter {
+    background-color: #f7f9fc;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    flex: 1;
+  }
+  
+  .counter p {
+    font-size: 16px;
+    color: #555;
+    margin: 0;
+  }
+  
+  .counter span {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 8px;
+    color: #333;
+  }
+  
+  .section {
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+  
