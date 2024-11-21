@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FiUser, FiClock, FiStar } from "react-icons/fi"; // Using icons for navigation
+import { FiUser, FiClock, FiStar } from "react-icons/fi";
 import './homePage.css';
 
 const HomePage = () => {
@@ -12,16 +12,21 @@ const HomePage = () => {
 	const handleFormSubmission = async (event) => {
 		event.preventDefault();
 		try {
-			const response = await fetch(`http://localhost:3000/getCompanyCIK`, {
+			const CIKResponse = await fetch(`http://localhost:3000/getCompanyCIK`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ companyName: searchValue }),
+			});
+			const tickerResponse = await fetch(`http://localhost:3000/getCompanyTicker`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ companyName: searchValue }),
 			});
 
-			if (response.ok) {
-				const cik = await response.json();
-				navigate(`/CompanyPage`, { state: { cik } });
-
+			if (CIKResponse.ok) {
+				const cik = await CIKResponse.json();
+				const ticker = await tickerResponse.json();
+				navigate("/CompanyPage", { state: { cik, ticker } });
 			}
 		} catch (error) {
 			console.log("Error fetching company CIK", error);

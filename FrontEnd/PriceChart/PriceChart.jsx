@@ -2,22 +2,19 @@ import React, { useEffect } from "react";
 import { createChart } from "lightweight-charts";
 import axios from "axios";
 
-const PriceChart = () => {
+const PriceChart = ({ ticker }) => {
   useEffect(() => {
     const chartContainer = document.getElementById("chart-container");
     let chart;
 
     const fetchChartData = async () => {
       try {
-        const response = await axios.get(
-          "https://api.twelvedata.com/eod",
-          {
-            params: {
-              symbol: "AAPL",
-              apikey: "9a357411dd584b999d258360b14f3f60",
-            },
-          }
-        );
+        const response = await axios.get("https://api.twelvedata.com/eod", {
+          params: {
+            symbol: ticker,
+            apikey: "9a357411dd584b999d258360b14f3f60",
+          },
+        });
 
         const result = response.data;
 
@@ -57,7 +54,7 @@ const PriceChart = () => {
         chart = null;
       }
     };
-  }, []);
+  }, [ticker]);
 
   return (
     <div

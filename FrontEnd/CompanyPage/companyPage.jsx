@@ -15,7 +15,7 @@ import "./companyPage.css";
 
 export default function CompanyPage() {
   const location = useLocation();
-  const { cik, selectedFields = [], selectedSections = {} } = location.state || {};  
+  const { cik, ticker, selectedFields = [], selectedSections = {} } = location.state || {};  
   const [companyData, setCompanyData] = useState(null);
   const [isFormExplorerVisible, setIsFormExplorerVisible] = useState(false);
   
@@ -42,10 +42,10 @@ export default function CompanyPage() {
 			</div>
 
       <div id="company-page-title">
-        <h2>Company Data for CIK: {cik}</h2>
+        <h2>Company Data for {ticker}</h2>
       </div>
 
-      <PriceChart />
+      <PriceChart ticker={ticker} />
 
       <div id="company-page-all-tables">
         {selectedSections.incomeStatement && (
