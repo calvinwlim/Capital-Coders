@@ -1,0 +1,34 @@
+.company-profile {
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem 0;
+    background-color: #14171F;
+    border-radius: 8px;
+    margin: 1rem 0;
+  }
+  
+  .widget-container {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .widget {
+    text-align: center;
+    padding: 1rem;
+    background: #1E2230;
+    color: #F2F2F2;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    min-width: 100px;
+  }
+  
+  .widget h4 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .widget p {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  

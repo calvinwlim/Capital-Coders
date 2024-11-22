@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { FiUser, FiClock, FiStar } from "react-icons/fi";
-import { createChart } from 'lightweight-charts';
 import { fetchCompanyData } from "./utils";
 
 import FieldTable from "./fieldTable";
@@ -10,22 +9,26 @@ import BalanceSheet from "./balanceSheet";
 import CashFlow from "./cashFlow";
 import FormExplorer from "../FormExplorer/FormExplorer";
 import PriceChart from "../PriceChart/PriceChart";
+import TickerWidgets from "../CompanyWidgets/TickerWidgets";
+import CompanyLogo from "../CompanyWidgets/CompanyLogo";
+import CompanyProfile from "../CompanyWidgets/CompanyProfile";
+
 
 import "./companyPage.css";
 
 export default function CompanyPage() {
   const location = useLocation();
-  const { cik, selectedFields = [], selectedSections = {} } = location.state || {};  
+  const { cik, ticker, selectedFields = [], selectedSections = {} } = location.state || {};  
   const [companyData, setCompanyData] = useState(null);
   const [isFormExplorerVisible, setIsFormExplorerVisible] = useState(false);
-  
-  useEffect(() => {
-    if (cik) fetchCompanyData(cik, setCompanyData);
-  }, [cik]);
 
   const toggleFormExplorer = () => {
     setIsFormExplorerVisible(!isFormExplorerVisible);
   };
+
+  useEffect(() => {
+    if (cik) fetchCompanyData(cik, setCompanyData);
+  }, [cik]);
 
   return (
     <div id="company-page">
@@ -41,11 +44,17 @@ export default function CompanyPage() {
 				</a>
 			</div>
 
+      <CompanyLogo />
+
       <div id="company-page-title">
-        <h2>Company Data for CIK: {cik}</h2>
+        <h2>Company Data for {ticker}</h2>
       </div>
 
-      <PriceChart />
+      <CompanyProfile ticker={ticker} />
+
+      <TickerWidgets ticker={ticker} />
+
+      <PriceChart ticker={ticker} />
 
       <div id="company-page-all-tables">
         {selectedSections.incomeStatement && (

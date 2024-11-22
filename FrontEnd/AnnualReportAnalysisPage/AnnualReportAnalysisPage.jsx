@@ -1,110 +1,120 @@
-
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { fetchFormSection } from "./FetchFormSection";
 import { fetchFilingSummary } from "./FetchFilingSummary";
 import { parseFilingFormFor } from "./ParseFilingFormFor";
-
-import { parseIncomeStatement } from "./ParseStatements";
+import "./AnnualReportAnalysisPage.css";
 
 const AnnualReportAnalysisPage = () => {
-	const { cik, accessionNumber, ticker, date, form } = useParams();
-	const formattedCIK = cik.replace(/^0+/, "");
+  const { cik, accessionNumber, ticker } = useParams();
+  const formattedCIK = cik.replace(/^0+/, "");
 
-	const [filingSummary, setFilingSummary] = useState("");
+  const [filingSummary, setFilingSummary] = useState("");
+  const [incomeStatementIdentifier, setIncomeStatementIdentifier] = useState(null);
+  const [balanceSheetIdentifier, setBalanceSheetIdentifier] = useState(null);
+  const [cashFlowIdentifier, setCashFlowIdentifier] = useState(null);
 
-	//This represents the section ID of each statement, i.e R3.htm, R9.htm, R18.htm etc
-	const [incomeStatementIdentifier, setIncomeStatementIdentifier] = useState(null);
-	const [balanceSheetIdentifier, setBalanceSheetIdentifier] = useState(null);
-	const [cashFlowIdentifier, setCashFlowIdentifier] = useState(null);
+  const [incomeStatement, setIncomeStatement] = useState(null);
+  const [balanceSheet, setBalanceSheet] = useState(null);
+  const [cashFlow, setCashFlow] = useState(null);
 
-	//This represents the actual html content taken from the form
-	const [incomeStatement, setIncomeStatement] = useState(null);
-	const [balanceSheet, setBalanceSheet] = useState(null);
-	const [cashFlow, setCashFlow] = useState(null);
+  const [totalRevenue, setTotalRevenue] = useState(0);
+  const [totalAssets, setTotalAssets] = useState(0);
+  const [netCashFlow, setNetCashFlow] = useState(0);
 
-	//When formattedCIK is initialized, run fetchFilingSummary
-	useEffect(() => {
-		fetchFilingSummary(formattedCIK, accessionNumber, setFilingSummary);
-	}, [formattedCIK]);
+  useEffect(() => {
+    fetchFilingSummary(formattedCIK, accessionNumber, setFilingSummary);
+  }, [formattedCIK]);
 
-	const fetchAndParse = async () => {
-		try {
-			if (filingSummary !== "") {
-				await parseFilingFormFor(filingSummary, [
-					setIncomeStatementIdentifier,
-					setBalanceSheetIdentifier,
-					setCashFlowIdentifier,
-				]);
-			}
-		} catch (error) {
-			console.error("Error in parseFilingFormFor:", error);
-		}
-	};
+  const fetchAndParse = async () => {
+    try {
+      if (filingSummary !== "") {
+        await parseFilingFormFor(filingSummary, [
+          setIncomeStatementIdentifier,
+          setBalanceSheetIdentifier,
+          setCashFlowIdentifier,
+        ]);
+      }
+    } catch (error) {
+      console.error("Error in parseFilingFormFor:", error);
+    }
+  };
 
-	useEffect(() => {
-		if (filingSummary !== "") {
-			fetchAndParse();
-		}
-	}, [filingSummary]);
+  useEffect(() => {
+    if (filingSummary !== "") {
+      fetchAndParse();
+    }
+  }, [filingSummary]);
 
-	const fetchSections = async () => {
-		try {
-			if (
-				incomeStatementIdentifier !== null &&
-				balanceSheetIdentifier !== null &&
-				cashFlowIdentifier !== null &&
-				filingSummary !== ""
-			) {
-				await fetchFormSection(
-					formattedCIK,
-					accessionNumber,
-					incomeStatementIdentifier,
-					setIncomeStatement
-				);
-				await fetchFormSection(
-					formattedCIK,
-					accessionNumber,
-					balanceSheetIdentifier,
-					setBalanceSheet
-				);
-				await fetchFormSection(formattedCIK, accessionNumber, cashFlowIdentifier, setCashFlow);
-			}
-		} catch (error) {
-			console.error("Error fetching sections:", error);
-		}
-	};
+  const fetchSections = async () => {
+    try {
+      if (incomeStatementIdentifier && balanceSheetIdentifier && cashFlowIdentifier) {
+        await fetchFormSection(formattedCIK, accessionNumber, incomeStatementIdentifier, (data) => {
+          setIncomeStatement(data);
+          const revenue = extractNumericValue(data, /Total Revenue/i);
+          setTotalRevenue(revenue);
+        });
 
-	useEffect(() => {
-		fetchSections();
-	}, [incomeStatementIdentifier, balanceSheetIdentifier, cashFlowIdentifier]);
+        await fetchFormSection(formattedCIK, accessionNumber, balanceSheetIdentifier, (data) => {
+          setBalanceSheet(data);
+          const assets = extractNumericValue(data, /Total Assets/i);
+          setTotalAssets(assets);
+        });
 
-	useEffect(() => {
-		if (incomeStatement !== null) {
-			parseIncomeStatement(incomeStatement);
-		}
-	}, [incomeStatement]);
+        await fetchFormSection(formattedCIK, accessionNumber, cashFlowIdentifier, (data) => {
+          setCashFlow(data);
+          const cashFlow = extractNumericValue(data, /Net Cash Flow/i);
+          setNetCashFlow(cashFlow);
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching sections:", error);
+    }
+  };
 
-	return (
-		<div id="annual-report-analysis-page">
-			<div id="navigation-bar">
-				<a href="MyProfile">My Profile</a>
-				<a href="History">History</a>
-				<a href="Favorites">Favorites</a>
-			</div>
-			<h1>
-				{formattedCIK} {accessionNumber} {ticker} {date} {form}
-			</h1>
+  useEffect(() => {
+    fetchSections();
+  }, [incomeStatementIdentifier, balanceSheetIdentifier, cashFlowIdentifier]);
 
-			{incomeStatement && (
-				<div className="1234" dangerouslySetInnerHTML={{ __html: incomeStatement }} />
-			)}
+  const extractNumericValue = (html, regex) => {
+    const match = html.match(regex);
+    if (match) {
+      const numberString = match[0].replace(/[^\d.-]/g, "");
+      return parseFloat(numberString) || 0;
+    }
+    return 0;
+  };
 
-			{balanceSheet && <div className="1234" dangerouslySetInnerHTML={{ __html: balanceSheet }} />}
+  return (
+    <div id="annual-report-analysis-page">
+      <h1>{ticker} Financial Analysis</h1>
 
-			{cashFlow && <div className="1234" dangerouslySetInnerHTML={{ __html: cashFlow }} />}
-		</div>
-	);
+      <div className="counters">
+        <div className="counter">
+          <p>Total Revenue</p>
+          <span>${totalRevenue.toLocaleString()}</span>
+        </div>
+        <div className="counter">
+          <p>Total Assets</p>
+          <span>${totalAssets.toLocaleString()}</span>
+        </div>
+        <div className="counter">
+          <p>Net Cash Flow</p>
+          <span>${netCashFlow.toLocaleString()}</span>
+        </div>
+      </div>
+
+      {incomeStatement && (
+        <div className="section" dangerouslySetInnerHTML={{ __html: incomeStatement }} />
+      )}
+      {balanceSheet && (
+        <div className="section" dangerouslySetInnerHTML={{ __html: balanceSheet }} />
+      )}
+      {cashFlow && (
+        <div className="section" dangerouslySetInnerHTML={{ __html: cashFlow }} />
+      )}
+    </div>
+  );
 };
 
 export default AnnualReportAnalysisPage;
