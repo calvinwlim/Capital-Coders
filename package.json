@@ -1,0 +1,11 @@
+{
+  "name": "capital-coders",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "vite.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
