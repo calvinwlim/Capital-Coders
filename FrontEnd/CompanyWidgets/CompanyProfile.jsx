@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Tooltip } from "react-tooltip";
 import "./CompanyProfile.css";
 
 export default function CompanyProfile({ ticker }) {
@@ -39,11 +40,23 @@ export default function CompanyProfile({ ticker }) {
                     </div>
                     <div className="profile-details">
                         <div className="profile-widget">
-                            <h4>Sector</h4>
+                            <h4>
+                                Sector{" "}
+                                <span data-tooltip-id="sector-tooltip" data-tooltip-content="One of 11 major sectors that together cover every industry.">
+                                    ⓘ
+                                </span>
+                            </h4>
+                            <Tooltip id="sector-tooltip" />
                             <p>{profileData.sector || "N/A"}</p>
                         </div>
                         <div className="profile-widget">
-                            <h4>Industry</h4>
+                            <h4>
+                                Industry{" "}
+                                <span data-tooltip-id="industry-tooltip" data-tooltip-content="A specific group of similar types of companies.">
+                                    ⓘ
+                                </span>
+                            </h4>
+                            <Tooltip id="industry-tooltip" />
                             <p>{profileData.industry || "N/A"}</p>
                         </div>
                         <div className="profile-widget">
