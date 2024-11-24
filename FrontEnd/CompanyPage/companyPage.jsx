@@ -49,11 +49,12 @@ export default function CompanyPage() {
       <div id="company-page-title">
         <h2>Company Data for {ticker}</h2>
       </div>
-
+      
+      <div id="company-page-header">
       <CompanyProfile ticker={ticker} />
-
       <TickerWidgets ticker={ticker} />
-
+      </div>
+      
       <PriceChart ticker={ticker} />
 
       <div id="company-page-all-tables">

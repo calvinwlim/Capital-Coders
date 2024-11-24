@@ -190,4 +190,24 @@
     padding: 1rem;
     font-size: 0.85rem;
   }
+  
+  #company-page-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
+    width: 95%;
+    max-width: 1200px;
+    margin: 2rem auto;
+  }
+
+  #company-page-header > div {
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  .ticker-widgets {
+    height: auto;
+  }
 }
