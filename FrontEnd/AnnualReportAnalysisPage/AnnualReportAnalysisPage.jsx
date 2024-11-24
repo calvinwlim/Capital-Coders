@@ -85,6 +85,31 @@ const AnnualReportAnalysisPage = () => {
     return 0;
   };
 
+  const handleDownload = () => {
+    const data = {
+      ticker,
+      totalRevenue,
+      totalAssets,
+      netCashFlow,
+      sections: {
+        incomeStatement: incomeStatement || "No income statement data available",
+        balanceSheet: balanceSheet || "No balance sheet data available",
+        cashFlow: cashFlow || "No cash flow data available",
+      },
+    };
+
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${ticker}_Financial_Analysis.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <div id="annual-report-analysis-page">
       <h1>{ticker} Financial Analysis</h1>
@@ -103,6 +128,10 @@ const AnnualReportAnalysisPage = () => {
           <span>${netCashFlow.toLocaleString()}</span>
         </div>
       </div>
+
+      <button onClick={handleDownload} className="download-button">
+        Download Data
+      </button>
 
       {incomeStatement && (
         <div className="section" dangerouslySetInnerHTML={{ __html: incomeStatement }} />
