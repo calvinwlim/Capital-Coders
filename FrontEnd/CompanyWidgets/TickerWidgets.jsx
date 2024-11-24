@@ -17,7 +17,7 @@ export default function TickerWidgets({ ticker }) {
       });
 
       if (response.data && response.data.values) {
-        setTickerData(response.data.values);
+        setTickerData(response.data.values[0]); // Use the latest ticker data
       } else {
         console.error("Error: Unexpected API response", response.data);
       }
@@ -31,32 +31,34 @@ export default function TickerWidgets({ ticker }) {
   }, [ticker]);
 
   return (
-    <div id="ticker-widgets" className="ticker-widgets">
-      {tickerData && tickerData.length > 0 ? (
-        <div className="widget-container">
+    <div className="ticker-widgets">
+      {tickerData ? (
+        <div className="widget-grid">
           <div className="widget">
             <h4>Open</h4>
-            <p>{tickerData[0].open}</p>
+            <p>{tickerData.open}</p>
           </div>
           <div className="widget">
             <h4>High</h4>
-            <p>{tickerData[0].high}</p>
+            <p>{tickerData.high}</p>
           </div>
           <div className="widget">
             <h4>Low</h4>
-            <p>{tickerData[0].low}</p>
+            <p>{tickerData.low}</p>
           </div>
           <div className="widget">
             <h4>Close</h4>
-            <p>{tickerData[0].close}</p>
+            <p>{tickerData.close}</p>
           </div>
           <div className="widget">
             <h4>Volume</h4>
-            <p>{tickerData[0].volume}</p>
+            <p>{tickerData.volume}</p>
           </div>
         </div>
       ) : (
-        <p>Loading ticker data...</p>
+        <div className="loading-container">
+          <p>Loading ticker data...</p>
+        </div>
       )}
     </div>
   );

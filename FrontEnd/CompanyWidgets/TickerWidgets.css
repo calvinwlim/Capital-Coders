@@ -1,34 +1,70 @@
+/* General Styles */
 .ticker-widgets {
-    display: flex;
-    justify-content: space-around;
-    padding: 1rem 0;
-    background-color: #14171F;
-    border-radius: 8px;
-    margin: 1rem 0;
-  }
-  
-  .widget-container {
-    display: flex;
-    gap: 1rem;
-  }
-  
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #1F2937;
+  border-radius: 12px;
+  color: #E5E7EB;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Grid Layout for Widgets */
+.widget-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Widget Styles */
+.widget {
+  background: #374151;
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.widget:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.widget h4 {
+  font-size: 1rem;
+  color: #FBBF24;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.widget p {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #D1D5DB;
+}
+
+/* Loading State */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 1.5rem;
+  color: #9CA3AF;
+}
+
+/* Responsive Behavior */
+@media (max-width: 768px) {
   .widget {
-    text-align: center;
-    padding: 1rem;
-    background: #1E2230;
-    color: #F2F2F2;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    min-width: 100px;
+      padding: 1rem;
   }
-  
+
   .widget h4 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
+      font-size: 0.9rem;
   }
-  
+
   .widget p {
-    font-size: 1.5rem;
-    font-weight: bold;
+      font-size: 1.2rem;
   }
-  
+}
