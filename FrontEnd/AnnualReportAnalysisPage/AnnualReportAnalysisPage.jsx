@@ -85,7 +85,7 @@ const AnnualReportAnalysisPage = () => {
     return 0;
   };
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     const data = {
       ticker,
       totalRevenue,
@@ -108,7 +108,23 @@ const AnnualReportAnalysisPage = () => {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-  }
+  };
+
+  const sendToTranslator= async (fileBlob) => {
+    const formData = new FormData();
+    formData.append("file", fileBlob, `${ticker}_Financial_Analysis.json`);
+
+    try {
+      const response = await axios.post("http://localhost:3000/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("File data sent to translator:", response.data);
+    } catch (error) {
+      console.error("Error sending file to translator:", error);
+    }
+  };
 
   return (
     <div id="annual-report-analysis-page">
@@ -131,6 +147,10 @@ const AnnualReportAnalysisPage = () => {
 
       <button onClick={handleDownload} className="download-button">
         Download Data
+      </button>
+
+      <button onClick={sendToTranslator} className="download-button">
+        Translate Data
       </button>
 
       {incomeStatement && (
