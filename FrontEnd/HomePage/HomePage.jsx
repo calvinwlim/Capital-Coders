@@ -11,27 +11,42 @@ const HomePage = () => {
 
 	const handleFormSubmission = async (event) => {
 		event.preventDefault();
+	
 		try {
+			// Fetch CIK
 			const CIKResponse = await fetch(`http://localhost:3000/getCompanyCIK`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ companyName: searchValue }),
 			});
+	
+			if (!CIKResponse.ok) {
+				throw new Error(`Error fetching CIK: ${await CIKResponse.text()}`);
+			}
+	
+			const cik = await CIKResponse.json();
+			console.log("Fetched CIK:", cik);
+	
+			// Fetch Ticker
 			const tickerResponse = await fetch(`http://localhost:3000/getCompanyTicker`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ companyName: searchValue }),
 			});
-
-			if (CIKResponse.ok) {
-				const cik = await CIKResponse.json();
-				const ticker = await tickerResponse.json();
-				navigate("/CompanyPage", { state: { cik, ticker } });
+	
+			if (!tickerResponse.ok) {
+				throw new Error(`Error fetching Ticker: ${await tickerResponse.text()}`);
 			}
+			
+			const { ticker } = await tickerResponse.json();
+			console.log("Fetched Ticker:", ticker);			
+	
+			// Navigate to the CompanyPage with state
+			navigate("/CompanyPage", { state: { cik, ticker } });
 		} catch (error) {
-			console.log("Error fetching company CIK", error);
+			console.error("Error during form submission:", error.message);
 		}
-	};
+	};	
 
 	const handleInputChange = async (event) => {
 		const currentSearchValue = event.target.value;
