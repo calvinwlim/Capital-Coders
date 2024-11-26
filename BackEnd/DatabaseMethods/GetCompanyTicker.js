@@ -1,25 +1,24 @@
 import { pool } from "../Database/Database.js";
 
 export const getCompanyTicker = async (request, response) => {
-  const { companyName } = request.body;
-
+  const { companyCik } = request.body;
   try {
-    if (!companyName) {
-      return response.status(400).json({ message: "companyName is required" });
+    if (!companyCik) {
+      return response.status(400).json({ message: "companys CIK is required" });
     }
 
     const databaseQuery = `
       SELECT tickers, company_name 
       FROM company_submissions_data 
-      WHERE company_name ILIKE $1;
+      WHERE cik = $1;
     `;
-    const companyNameQuery = [companyName];
-    console.log("Received companyName:", companyName);
-    const returnedResult = await pool.query(databaseQuery, companyNameQuery);
+    const companyCikQuery = [companyCik];
+    console.log("Received companyCIK:", companyCik);
+    const returnedResult = await pool.query(databaseQuery, companyCikQuery);
     console.log("Query Result:", returnedResult.rows);
 
     if (returnedResult.rows.length === 0) {
-      return response.status(404).json({ message: "Company not found" });
+      return response.status(404).json({ message: "Company not found given cik" });
     }
 
     const companyTicker = returnedResult.rows[0].tickers;
