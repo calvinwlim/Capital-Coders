@@ -15,8 +15,8 @@ export const getCompanyTicker = async (request, response) => {
     `;
     const companyNameQuery = [companyName];
     console.log("Received companyName:", companyName);
-    console.log("Query Result:", returnedResult.rows);
     const returnedResult = await pool.query(databaseQuery, companyNameQuery);
+    console.log("Query Result:", returnedResult.rows);
 
     if (returnedResult.rows.length === 0) {
       return response.status(404).json({ message: "Company not found" });
