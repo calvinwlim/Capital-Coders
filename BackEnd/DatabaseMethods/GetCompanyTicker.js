@@ -21,10 +21,13 @@ export const getCompanyTicker = async (request, response) => {
       return response.status(404).json({ message: "Company not found given cik" });
     }
 
-    const companyTicker = returnedResult.rows[0].tickers;
-    response.json(companyTicker);
+    console.log("Query Result:", returnedResult.rows);
+
+    // Extract and send response
+    const companyTicker = returnedResult.rows[0].ticker;
+    response.status(200).json({ ticker: companyTicker });
   } catch (error) {
     console.error("GetCompanyTicker.js: Error fetching Ticker", error);
-    response.status(500).send("Backend Server Error");
+    response.status(500).json({ message: "Server error while fetching ticker" });
   }
 };
