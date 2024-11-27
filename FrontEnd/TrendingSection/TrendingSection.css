@@ -1,35 +1,25 @@
 .market-overview {
     margin: 20px;
-    background-color: var(--primary-color);
+    background-color: radial-gradient(circle at top left, var(--primary-color), hsl(222, 20%, 20%));
     padding: 20px;
     border-radius: 10px;
     color: var(--inner-font-color);
     overflow-x: auto;
     white-space: nowrap;
-  }
-  
-  h1 {
+}
+
+h1 {
     text-align: center;
     margin-bottom: 20px;
-    color: var(--secondary-color);
-  }
-  
-  .section {
-    color: var(--secondary-color);
-    margin-bottom: 10px;
-  }
-  
-  h2 {
-    color: var(--accent-color);
-    margin-bottom: 10px;
-  }
-  
-  .cards {
+    color: var(--inner-font-color);
+}
+
+.cards {
     display: inline-flex;
     gap: 15px;
-  }
-  
-  .card {
+}
+
+.card {
     flex: 0 0 auto;
     min-width: 250px;
     background: var(--secondary-color);
@@ -40,26 +30,26 @@
     text-align: center;
     transition: transform 0.2s ease, background-color 0.3s ease;
     color: var(--inner-font-color);
-  }
-  
-  .card:hover {
+}
+
+.card:hover {
     transform: scale(1.02);
     background-color: var(--accent-color);
-  }
-  
-  .card h3 {
+}
+
+.card h3 {
     margin: 0;
     color: var(--inner-font-color);
-  }
-  
-  .card p {
+}
+
+.card p {
     margin: 5px 0;
     color: var(--inner-font-color);
-  }
-  
-  .loading,
-  .error {
+}
+
+.loading,
+.error {
     text-align: center;
     font-size: 18px;
     color: var(--accent-color);
-  }  
+}

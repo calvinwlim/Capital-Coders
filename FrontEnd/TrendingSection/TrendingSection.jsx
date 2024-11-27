@@ -41,8 +41,8 @@ export default function TrendingSection() {
     return (
         <div className="market-overview">
             <h1>Trending</h1>
-            <div className="section">
-                <h2>Top Gainers</h2>
+            <div className="section1">
+                <h1>Top Gainers</h1>
                 <div className="cards">
                     {marketData.top_gainers.map((item) => (
                         <div key={item.ticker} className="card">
@@ -55,9 +55,8 @@ export default function TrendingSection() {
                     ))}
                 </div>
             </div>
-
-            <div className="section">
-                <h2>Top Losers</h2>
+            <div className="section2">
+                <h1>Top Losers</h1>
                 <div className="cards">
                     {marketData.top_losers.map((item) => (
                         <div key={item.ticker} className="card">
@@ -70,9 +69,8 @@ export default function TrendingSection() {
                     ))}
                 </div>
             </div>
-
-            <div className="section">
-                <h2>Most Actively Traded</h2>
+            <div className="section3">
+                <h1>Most Actively Traded</h1>
                 <div className="cards">
                     {marketData.most_actively_traded.map((item) => (
                         <div key={item.ticker} className="card">
