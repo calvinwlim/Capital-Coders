@@ -63,7 +63,7 @@ export default function CompanyPage() {
         </a>
       </div>
 
-      <CompanyLogo />
+      <CompanyLogo ticker={ticker} />
 
       <div id="company-page-title">
         <h2>Company Data for {ticker}</h2>
