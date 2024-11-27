@@ -1,12 +1,12 @@
 import axios from "axios";
-import { pool } from "../Database/Database.js";
+import { pool } from "../../Database/Database.js";
 
 export const fetchFilingSummaryFromSEC = async (cik, accessionNumber) => {
   const url = `https://www.sec.gov/Archives/edgar/data/${cik}/${accessionNumber}/FilingSummary.xml`;
 
   try {
     const response = await axios.get(url, {
-      headers: { "User-Agent": "CapitalCoders (kgfraser@scu.edu)" },
+      headers: { "User-Agent": "CapitalCoders (kgfraser@scu.edu)" }
     });
 
     return response.data;
@@ -16,7 +16,7 @@ export const fetchFilingSummaryFromSEC = async (cik, accessionNumber) => {
   }
 };
 
-export const fetchFilingSummary = async (request, response) => {
+const fetchFilingSummary = async (request, response) => {
   const { cik, accessionNumber } = request.body;
 
   try {
@@ -51,3 +51,5 @@ export const fetchFilingSummary = async (request, response) => {
     response.status(500).json({ error: "Internal server error" });
   }
 };
+
+export default fetchFilingSummary;

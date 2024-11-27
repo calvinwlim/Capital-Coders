@@ -1,11 +1,11 @@
 import axios from "axios";
-import { pool } from "../Database/Database.js";
+import { pool } from "../../Database/Database.js";
 
 const fetchReport = async (cik, accessionNumber, section) => {
   const url = `https://www.sec.gov/Archives/edgar/data/${cik}/${accessionNumber}/${section}`;
   try {
     const response = await axios.get(url, {
-      headers: { "User-Agent": "CapitalCoders (kgfraser@scu.edu)" },
+      headers: { "User-Agent": "CapitalCoders (kgfraser@scu.edu)" }
     });
 
     if (response.status === 200) {
@@ -20,7 +20,7 @@ const fetchReport = async (cik, accessionNumber, section) => {
   return null;
 };
 
-export const fetchFormSection = async (request, response) => {
+const fetchSpecificFormSection = async (request, response) => {
   const { cik, accessionNumber, reportSection } = request.body;
 
   console.log("Arguments = ", cik, " ", accessionNumber, " ", reportSection);
@@ -75,3 +75,5 @@ export const fetchFormSection = async (request, response) => {
     response.status(500).json({ error: "Internal server error" });
   }
 };
+
+export default fetchSpecificFormSection;

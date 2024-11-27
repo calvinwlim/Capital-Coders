@@ -1,4 +1,4 @@
-import { pool } from "../Database/Database.js";
+import { pool } from "../../Database/Database.js";
 
 const url = `https://www.sec.gov/Archives/edgar/data/${cik}/${accessionNumber}/${ticker}-${formattedDate}.htm`;
 
