@@ -5,7 +5,7 @@ import { createRoot } from "react-dom/client";
 import "./main.css";
 import HomePage from "./HomePage/HomePage";
 import LoginPage from "./LoginPage/LoginPage";
-import CompanyPage from "./CompanyPage/CompanyPage";
+import CompanyPage from "./CompanyPage/companyPage";
 import FormExplorer from "./FormExplorer/FormExplorer";
 import AnnualReportAnalysisPage from "./AnnualReportAnalysisPage/AnnualReportAnalysisPage";
 

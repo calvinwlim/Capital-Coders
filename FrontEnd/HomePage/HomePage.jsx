@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiUser, FiClock, FiStar } from "react-icons/fi";
+import TrendingSection from "../TrendingSection/TrendingSection";
 import "./homePage.css";
 
 const HomePage = () => {
@@ -8,7 +9,7 @@ const HomePage = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const navigate = useNavigate();
-
+  
   const handleFormSubmission = async (event) => {
     event.preventDefault();
     try {
@@ -80,7 +81,6 @@ const HomePage = () => {
           />
           <button type="submit">Go</button>
         </form>
-        {/* Custom Suggestions Dropdown */}
         {showSuggestions && suggestions.length > 0 && (
           <ul id="suggestions-list">
             {suggestions.map((suggestion, index) => (
@@ -91,6 +91,7 @@ const HomePage = () => {
           </ul>
         )}
       </div>
+      <TrendingSection />
     </div>
   );
 };
