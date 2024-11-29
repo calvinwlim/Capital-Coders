@@ -20,10 +20,8 @@ const fetchReport = async (cik, accessionNumber, section) => {
   return null;
 };
 
-const fetchSpecificFormSection = async (request, response) => {
-  const { cik, accessionNumber, reportSection } = request.body;
-
-  console.log("Arguments = ", cik, " ", accessionNumber, " ", reportSection);
+const fetchSpecificFormSection = async (cik, accessionNumber, reportSection) => {
+  console.log("Fetching Form Section w Arguments = ", cik, " ", accessionNumber, " ", reportSection);
 
   try {
     const databaseQuery = `
@@ -46,7 +44,7 @@ const fetchSpecificFormSection = async (request, response) => {
 
       // Check if the section we want is already present in the returned data
       if (annualReport[reportSection]) {
-        response.json(annualReport[reportSection]);
+        return annualReport[reportSection];
       } else {
         // Section is not present, fetch from SEC
         const reportSectionData = await fetchReport(cik, accessionNumber, reportSection);
@@ -60,19 +58,16 @@ const fetchSpecificFormSection = async (request, response) => {
             SET all_sections_html = $1
             WHERE accession_number = $2 AND cik = $3;`;
           await pool.query(updateQuery, [JSON.stringify(annualReport), accessionNumber, cik]);
-          response.json(reportSectionData);
+          return reportSectionData;
         } else {
           console.error("Failed to fetch new section data from SEC.");
-          response.status(404).json({ error: "Section not found on SEC website." });
         }
       }
     } else {
       console.error("No data found for provided CIK and accession number.");
-      response.status(404).json({ error: "No data found in database." });
     }
   } catch (error) {
     console.error("GetAnnualReportData.js: FetchFormSection: Error processing request:", error.message);
-    response.status(500).json({ error: "Internal server error" });
   }
 };
 

@@ -1,13 +1,11 @@
-const parseFilingFormFor = async (filingSummary, argsArray) => {
+import { DOMParser } from "xmldom";
+
+const parseFilingFormFor = async (filingSummary, incomeStatements, balanceSheets, cashFlows) => {
   try {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(filingSummary, "application/xml");
 
     const reportSections = xmlDoc.getElementsByTagName("Report");
-
-    let balanceSheet = [];
-    let incomeStatement = [];
-    let cashFlow = [];
 
     for (let i = 0; i < reportSections.length; i++) {
       const reportSection = reportSections[i];
@@ -18,11 +16,11 @@ const parseFilingFormFor = async (filingSummary, argsArray) => {
         for (const [keyTerm, keywords] of Object.entries(statementKeysMap)) {
           if (keywords.some((keyword) => longName.toLowerCase().includes(keyword))) {
             if (keyTerm === "balance_sheet") {
-              balanceSheet.push(htmlFileName);
+              balanceSheets.push(htmlFileName);
             } else if (keyTerm === "income_statement") {
-              incomeStatement.push(htmlFileName);
+              incomeStatements.push(htmlFileName);
             } else if (keyTerm === "cash_flow_statement") {
-              cashFlow.push(htmlFileName);
+              cashFlows.push(htmlFileName);
             }
             //console.log(`Matched ${keyTerm} for LongName: ${longName}`);
             break;
@@ -30,17 +28,9 @@ const parseFilingFormFor = async (filingSummary, argsArray) => {
         }
       }
     }
-    //console.log("Balance Sheet File:", balanceSheet);
-    //console.log("Income Statement File:", incomeStatement);
-    //console.log("Cash Flow File:", cashFlow);
-
-    const largestIncomeStatement = incomeStatement.reduce((largest, current) => (current.length > largest.length ? current : largest), "");
-    const largestBalanceSheet = balanceSheet.reduce((largest, current) => (current.length > largest.length ? current : largest), "");
-    const largestCashFlow = cashFlow.reduce((largest, current) => (current.length > largest.length ? current : largest), "");
-
-    argsArray[0](largestIncomeStatement);
-    argsArray[1](largestBalanceSheet);
-    argsArray[2](largestCashFlow);
+    console.log("Balance Sheet Files:", balanceSheets);
+    console.log("Income Statement Files:", incomeStatements);
+    console.log("Cash Flow Files:", cashFlows);
   } catch (error) {
     console.error("FilingSummaryParser.js: ", error);
   }

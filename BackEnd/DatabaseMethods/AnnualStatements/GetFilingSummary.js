@@ -16,9 +16,7 @@ export const fetchFilingSummaryFromSEC = async (cik, accessionNumber) => {
   }
 };
 
-const fetchFilingSummary = async (request, response) => {
-  const { cik, accessionNumber } = request.body;
-
+const fetchFilingSummary = async (cik, accessionNumber) => {
   try {
     const databaseQuery = `
         SELECT filing_summary FROM reports_annual
@@ -29,7 +27,7 @@ const fetchFilingSummary = async (request, response) => {
     if (databaseReply.rows.length > 0) {
       const filingSummary = databaseReply.rows[0].filing_summary;
       if (filingSummary) {
-        return response.json(filingSummary);
+        return filingSummary;
       }
     }
 
@@ -41,14 +39,12 @@ const fetchFilingSummary = async (request, response) => {
 				VALUES ($1, $2, $3);`;
 
       await pool.query(insertQuery, [cik, accessionNumber, JSON.stringify(filingSummaryData)]);
-      return response.json(filingSummaryData);
+      return filingSummaryData;
     } else {
       console.error("Filing summary not found on SEC website.");
-      return response.status(404).json({ error: "Filing summary not found on SEC website." });
     }
   } catch (error) {
     console.error("GetFilingSummary.js: FetchFilingSummary: Error processing request:", error.message);
-    response.status(500).json({ error: "Internal server error" });
   }
 };
 
