@@ -1,5 +1,4 @@
 import { JSDOM } from "jsdom";
-import { skip } from "node:test";
 
 const parseStatement = async (statement, specialCase) => {
   //variables to store the appropriate column data for each row
@@ -90,7 +89,7 @@ const parseStatement = async (statement, specialCase) => {
     //Code to extract all the metrics with their taxonomies and associated values
     normalRows.forEach((rowObject) => {
       let anchorTag = rowObject.querySelector("a");
-      console.log("Trying anchor tag: ", rowObject.innerHTML);
+      //console.log("Trying anchor tag: ", rowObject.innerHTML);
       if (anchorTag) {
         let onClickText = String(anchorTag.getAttribute("onclick"));
         //Note that this only works for firms using the us_gaap taxonomy

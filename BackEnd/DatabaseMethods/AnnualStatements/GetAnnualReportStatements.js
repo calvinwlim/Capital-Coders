@@ -14,14 +14,13 @@ export const getAnnualStatements = async (request, response) => {
 
     const databaseReply = await pool.query(databaseQuery, [cik, accessionNumber]);
 
-    console.log("123", databaseReply);
-
-    if (databaseReply.rowCount == 3) {
+    if (databaseReply.rowCount != 0) {
       response.json(databaseReply.rows[0]);
       return;
     } else {
       let filingSummary = await fetchFilingSummary(cik, accessionNumber);
       if (filingSummary) {
+        console.log("No Reports Found, Fetching from SEC");
         //plural used here as a report might have more than of the statements for some weird reason
         //Therefore we figure out which is the correct one we want to use
         let incomeStatements = [];
@@ -42,9 +41,9 @@ export const getAnnualStatements = async (request, response) => {
           let parsedbalanceSheet = await parseStatement(balanceSheets[0], true);
           let parsedCashFlow = await parseStatement(cashFlows[0], false);
 
-          console.log("Income Check = ", parsedIncomeStatement);
-          console.log("Balance Check = ", parsedbalanceSheet);
-          console.log("Cash Check = ", parsedCashFlow);
+          //console.log("Income Check = ", parsedIncomeStatement);
+          //console.log("Balance Check = ", parsedbalanceSheet);
+          //console.log("Cash Check = ", parsedCashFlow);
 
           const databaseUpdateQuery = `
             UPDATE reports_annual
