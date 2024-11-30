@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { fetchForms } from "./FetchForms";
 import "./FormExplorer.css";
 
-const FormExplorer = ({ cik }) => {
+const FormExplorer = ({ cik, setMostRecentAnnualFormAccessionNumber }) => {
   const navigate = useNavigate();
   const [forms, setForms] = useState([]);
   const [formsDisplayed, setFormsDisplayed] = useState([]);
@@ -24,7 +24,14 @@ const FormExplorer = ({ cik }) => {
     setFormsDisplayed(formType === "all" ? forms : forms.filter((item) => item.form === formType));
   }, [formType, forms]);
 
-  //Function to navigate to the annual report analysis page that will tear apart the form we are examining in question
+  useEffect(() => {
+    const mostRecent10K = forms.filter((item) => item.form === "10-K").sort((a, b) => new Date(b.reportDate) - new Date(a.reportDate))[0]; // Sort by reportDate in descending order
+
+    if (mostRecent10K) {
+      setMostRecentAnnualFormAccessionNumber(mostRecent10K.accessionNumber);
+    }
+  }, [forms, setMostRecentAnnualFormAccessionNumber]);
+
   const handleButtonClick = (accessionNumber, reportDate, form) => {
     const formattedDate = reportDate.replace(/-/g, "");
     const formattedAccessionNumber = accessionNumber.replace(/-/g, "");

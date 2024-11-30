@@ -6,7 +6,6 @@ import "./main.css";
 import HomePage from "./HomePage/HomePage";
 import LoginPage from "./LoginPage/LoginPage";
 import CompanyPage from "./CompanyPage/CompanyPage";
-import FormExplorer from "./FormExplorer/FormExplorer";
 import AnnualReportAnalysisPage from "./AnnualReportAnalysisPage/AnnualReportAnalysisPage";
 
 createRoot(document.getElementById("root")).render(
@@ -14,7 +13,6 @@ createRoot(document.getElementById("root")).render(
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/FormExplorer/:cik" element={<FormExplorer />} />
         <Route path="/CompanyPage/:cik" element={<CompanyPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/AnnualReportAnalysis/:cik/:accessionNumber/:ticker/:date/:form" element={<AnnualReportAnalysisPage />} />
