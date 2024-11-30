@@ -1,6 +1,5 @@
-import { DOMParser } from "xmldom";
 import { JSDOM } from "jsdom";
-import { json } from "stream/consumers";
+import { skip } from "node:test";
 
 const parseStatement = async (statement, specialCase) => {
   //variables to store the appropriate column data for each row
@@ -91,32 +90,37 @@ const parseStatement = async (statement, specialCase) => {
     //Code to extract all the metrics with their taxonomies and associated values
     normalRows.forEach((rowObject) => {
       let anchorTag = rowObject.querySelector("a");
-      let onClickText = String(anchorTag.getAttribute("onclick"));
-      //Note that this only works for firms using the us_gaap taxonomy
-      //International firms use other taxonomies so we would have to modify this regex for those firms
-      const gaapRegex = /defref_us-gaap_([\w=-]+)'/;
-      const match = onClickText.match(gaapRegex);
-      if (match) {
-        if (!match[1].includes("Abstract")) {
-          metricTaxonomies.push(match[1]);
-          let allDataValues = rowObject.querySelectorAll("td");
-          let dataTexts = Array.from(allDataValues, (element) => element.textContent.trim());
-          let metricString = dataTexts[0];
-          metrics.push(metricString);
-          dataTexts.shift();
-          dataTexts = dataTexts.map((dataText) => String(dataText).replaceAll("$", ""));
-          dataTexts = dataTexts.map((dataText) => String(dataText).replaceAll(" ", ""));
-          dataTexts = dataTexts.map((dataText) => String(dataText).replaceAll(",", ""));
-          dataTexts = dataTexts.map((dataText) => String(dataText).replaceAll(")", ""));
-          dataTexts = dataTexts.map((dataText) => String(dataText).replaceAll("(", "-"));
-          if (metricString.includes("in shares") && shareMultiplier != 1) {
-            dataTexts = dataTexts.map((dataText) => dataText * shareMultiplier);
-          } else {
-            if (metricMultipler != 1) {
-              dataTexts = dataTexts.map((dataText) => dataText * metricMultipler);
+      console.log("Trying anchor tag: ", rowObject.innerHTML);
+      if (anchorTag) {
+        let onClickText = String(anchorTag.getAttribute("onclick"));
+        //Note that this only works for firms using the us_gaap taxonomy
+        //International firms use other taxonomies so we would have to modify this regex for those firms
+        if (onClickText) {
+          const gaapRegex = /defref_us-gaap_([\w=-]+)'/;
+          const match = onClickText.match(gaapRegex);
+          if (match) {
+            if (!match[1].includes("Abstract")) {
+              metricTaxonomies.push(match[1]);
+              let allDataValues = rowObject.querySelectorAll("td");
+              let dataTexts = Array.from(allDataValues, (element) => element.textContent.trim());
+              let metricString = dataTexts[0];
+              metrics.push(metricString);
+              dataTexts.shift();
+              dataTexts = dataTexts.map((dataText) => String(dataText).replaceAll("$", ""));
+              dataTexts = dataTexts.map((dataText) => String(dataText).replaceAll(" ", ""));
+              dataTexts = dataTexts.map((dataText) => String(dataText).replaceAll(",", ""));
+              dataTexts = dataTexts.map((dataText) => String(dataText).replaceAll(")", ""));
+              dataTexts = dataTexts.map((dataText) => String(dataText).replaceAll("(", "-"));
+              if (metricString.includes("in shares") && shareMultiplier != 1) {
+                dataTexts = dataTexts.map((dataText) => dataText * shareMultiplier);
+              } else {
+                if (metricMultipler != 1) {
+                  dataTexts = dataTexts.map((dataText) => dataText * metricMultipler);
+                }
+              }
+              metricValues.push(dataTexts);
             }
           }
-          metricValues.push(dataTexts);
         }
       }
     });

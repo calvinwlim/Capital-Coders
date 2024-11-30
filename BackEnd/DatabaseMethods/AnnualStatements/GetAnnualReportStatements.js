@@ -14,7 +14,9 @@ export const getAnnualStatements = async (request, response) => {
 
     const databaseReply = await pool.query(databaseQuery, [cik, accessionNumber]);
 
-    if (databaseReply.rows.length == 0 && databaseReply.rows[0].income_statement != null) {
+    console.log("123", databaseReply);
+
+    if (databaseReply.rowCount == 3) {
       response.json(databaseReply.rows[0]);
       return;
     } else {
