@@ -1,168 +1,120 @@
 #form-explorer-page {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    color: var(--primary-color);
+  background: radial-gradient(circle at top left, var(--primary-color), var(--cool-blue));
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: var(--primary-color);
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+/*First Child*/
+
+#form-explorer-filter-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: 1rem;
 }
 
-.header h1 {
-    font-size: 24px;
-    font-weight: 600;
-    color: var(--primary-color);
+#form-explorer-filter-section h3 {
+  color: hsla(0, 0%, 100%, 0.9);
+  font-size: 1.5rem;
 }
 
-.counters {
-    display: flex;
-    gap: 20px;
+#form-explorer-filter-section button {
+  background-color: hsla(0, 0%, 100%, 0.9);
+  padding: 0.4rem 1rem;
+  border-radius: 1rem;
+  color: var(--primary-color);
+  border: 1rem black;
+  font-size: 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.counter {
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+#form-explorer-filter-section button.active,
+#form-explorer-filter-section button:hover {
+  background-color: var(--secondary-color);
+  color: var(--inner-font-color);
 }
 
-.counter p {
-    font-size: 14px;
-    color: #777;
-    margin: 0;
+/*Second Child*/
+
+#form-explorer-table-container {
+  margin-top: 1rem;
+  width: 100%;
+  max-height: 40rem;
+  overflow-y: auto;
 }
 
-.counter span {
-    display: block;
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--primary-color);
-    margin-top: 5px;
+#form-explorer-table {
+  width: 100%;
+  background-color: hsla(245, 43%, 27%, 0.1);
+  border-collapse: collapse;
 }
 
-.filter-section {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+#form-explorer-table thead th {
+  background-color: hsla(0, 0%, 100%, 0.9);
+  position: sticky;
+  top: 0;
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
 }
 
-.filter-section button {
-    background-color: var(--inner-font-color);
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 8px 16px;
-    color: var(--primary-color);
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
+#form-explorer-table tbody tr {
+  text-align: center;
+  transition: background-color 0.3s;
 }
 
-.filter-section button.active,
-.filter-section button:hover {
-    background-color: var(--secondary-color);
-    color: var(--inner-font-color);
+#form-explorer-table tbody tr:hover {
+  background-color: hsla(0, 0%, 100%, 0.5);
 }
 
-.table-container {
-    overflow-x: auto;
-    background-color: var(--inner-font-color);
-    border: 1px solid #e6e6e6;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+#form-explorer-table tbody td {
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: hsla(0, 0%, 100%, 0.9);
 }
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-thead {
-    background-color: #f7f9fc;
-}
-
-thead th {
-    padding: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #666;
-    border-bottom: 1px solid #e6e6e6;
-    text-align: left;
-}
-
-tbody tr {
-    border-bottom: 1px solid #e6e6e6;
-    transition: background-color 0.3s;
-}
-
-tbody tr:hover {
-    background-color: #f9f9f9;
-}
-
-tbody td {
-    padding: 12px;
-    font-size: 14px;
-    color: var(--primary-color);
-}
-
-.no-data {
-    text-align: center;
-    color: #999;
-    padding: 20px;
-}
+/*Tables Buttons*/
 
 .view-report-button {
-    background-color: var(--secondary-color);
-    border: none;
-    color: var(--inner-font-color);
-    padding: 8px 12px;
-    font-size: 14px;
-    font-weight: 500;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  background-color: hsla(0, 0%, 100%, 0.9);
+  border: none;
+  color: hsla(0, 0%, 0%, 0.9);
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background-color 0.5s;
 }
 
 .view-report-button:hover {
-    background-color: var(--accent-color);
+  transform: scale(1.05);
+  background-color: hsl(231, 69%, 43%);
+}
+
+/*Table But If No Data*/
+
+.no-data {
+  text-align: center;
+  color: #999;
+  padding: 1.5rem;
 }
 
 .loading {
-    font-size: 16px;
-    text-align: center;
-    padding: 40px;
-    color: #666;
+  font-size: 16px;
+  text-align: center;
+  padding: 40px;
+  color: #666;
 }
 
 #form-explorer-toggle {
-    text-align: center;
-    margin: 20px 0;
-}
-  
-.toggle-button {
-    background-color: var(--secondary-color);
-    border: none;
-    color: var(--inner-font-color);
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.toggle-button:hover {
-    background-color: var(--accent-color);
-}
-
-.collapsible-section {
-    margin: 20px 0;
-    padding: 20px;
-    border: 1px solid #e6e6e6;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  margin: 20px 0;
 }

@@ -24,34 +24,19 @@ const FormExplorer = ({ cik }) => {
     setFormsDisplayed(formType === "all" ? forms : forms.filter((item) => item.form === formType));
   }, [formType, forms]);
 
+  //Function to navigate to the annual report analysis page that will tear apart the form we are examining in question
   const handleButtonClick = (accessionNumber, reportDate, form) => {
     const formattedDate = reportDate.replace(/-/g, "");
     const formattedAccessionNumber = accessionNumber.replace(/-/g, "");
     navigate(`/AnnualReportAnalysis/${cik}/${formattedAccessionNumber}/${ticker}/${formattedDate}/${form}`);
   };
 
-  if (isLoading) return <div className="loading">Loading data, please wait...</div>;
+  if (isLoading) return <div className="loading">Loading Forms, please wait...</div>;
 
   return (
     <div id="form-explorer-page">
-      <div className="header">
-        <h1>{`${cik} Form Directory`}</h1>
-        <div className="counters">
-          <div className="counter">
-            <p>Total Forms</p>
-            <span>{forms.length}</span>
-          </div>
-          <div className="counter">
-            <p>Quarterly Reports</p>
-            <span>{forms.filter((form) => form.form === "10-Q").length}</span>
-          </div>
-          <div className="counter">
-            <p>Annual Reports</p>
-            <span>{forms.filter((form) => form.form === "10-K").length}</span>
-          </div>
-        </div>
-      </div>
-      <div className="filter-section">
+      <div id="form-explorer-filter-section">
+        <h3>Filter Reports By:</h3>
         <button className={formType === "all" ? "active" : ""} onClick={() => setFormType("all")}>
           All
         </button>
@@ -62,8 +47,8 @@ const FormExplorer = ({ cik }) => {
           Annual
         </button>
       </div>
-      <div className="table-container">
-        <table>
+      <div id="form-explorer-table-container">
+        <table id="form-explorer-table">
           <thead>
             <tr>
               <th>Form</th>

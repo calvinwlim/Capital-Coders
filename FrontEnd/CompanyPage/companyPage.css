@@ -1,5 +1,5 @@
 #company-page {
-  background: var(--primary-color);
+  background: radial-gradient(circle at top left, var(--primary-color), var(--cool-blue));
   width: 100vw;
   min-height: 100vh;
   display: flex;
@@ -9,6 +9,8 @@
   color: var(--inner-font-color);
   font-family: "Arial", sans-serif;
 }
+
+/*First Child*/
 
 #navigation-bar {
   position: fixed;
@@ -40,174 +42,38 @@
   background-color: var(--border-color);
 }
 
-#company-page-title {
-  text-align: center;
-  margin-bottom: 2rem;
-}
+/*Second Child*/
 
-#company-page-title h2 {
-  font-size: 2rem;
-  font-weight: 500;
-  color: var(--inner-font-color);
-}
-
-#company-page-all-tables {
-  width: 95%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-
-.company-page-all-table-styles {
-  width: 100%;
-  max-width: 1200px;
-  padding: 1rem;
-  background-color: var(--background-color);
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-}
-
-#company-page table {
-  width: 100%;
-  table-layout: auto;
-  border-collapse: collapse;
-}
-
-#company-page th,
-#company-page td {
-  border: 1px solid var(--border-color);
-  text-align: center;
-  padding: 0.5rem;
-  color: var(--primary-color);
-  word-wrap: break-word;
-  font-size: 0.9rem;
-}
-
-#company-page th {
-  background-color: var(--secondary-color);
-  color: var(--inner-font-color);
-  font-weight: 400;
-}
-
-#company-page-all-table-buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-start;
-  padding: 0.5rem;
-}
-
-#company-page-all-table-buttons button {
-  padding: 0.4rem 1rem;
-  font-size: 0.9rem;
-  font-weight: 400;
-  color: var(--inner-font-color);
-  background-color: var(--secondary-color);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-#company-page-all-table-buttons button:hover {
-  background-color: var(--accent-color);
-  color: var(--primary-color);
-}
-
-#form-explorer-toggle {
+#company-page-form-toggle-explorer-button {
   margin-top: 2rem;
   width: 100%;
   display: flex;
   justify-content: center;
 }
+/*Class for Toggle Button Button*/
 
 .toggle-button {
-  padding: 0.6rem 1rem;
-  font-size: 1rem;
-  font-weight: 500;
+  border: 1rem black;
+  padding: 1rem 1.5rem;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 600;
+  border-radius: 1rem;
   color: var(--primary-color);
-  background-color: var(--secondary-color);
-  border: none;
-  border-radius: 4px;
+  background-color: hsl(0, 0%, 100%);
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .toggle-button:hover {
-  background-color: var(--accent-color);
+  background-color: hsl(231, 52%, 57%);
   transform: scale(1.05);
 }
 
-#form-explorer-container {
-  width: 90%;
-  max-width: 1000px;
-  padding: 1.25rem;
-  background-color: var(--background-color);
-  color: var(--primary-color);
-  font-size: 0.95rem;
-  line-height: 1.5;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-}
+/*Third Child*/
 
-#form-explorer-container h3 {
-  font-size: 1.25rem;
-  font-weight: 500;
-  margin-bottom: 1rem;
-  color: var(--secondary-color);
-}
-
-#form-explorer-container p {
-  margin: 0.5rem 0;
-  color: var(--secondary-color);
-}
-
-#chart-container {
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+#company-page-form-explorer-container {
+  width: 80%;
   padding: 1rem;
-}
-
-@media (max-width: 768px) {
-  #navigation-bar a {
-    font-size: 1rem;
-    width: 2.5rem;
-    height: 2.5rem;
-  }
-
-  #company-page-title h2 {
-    font-size: 1.5rem;
-  }
-
-  .toggle-button {
-    font-size: 0.9rem;
-  }
-
-  #form-explorer-container {
-    padding: 1rem;
-    font-size: 0.85rem;
-  }
-  
-  #company-page-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 1rem;
-    align-items: flex-start;
-    width: 95%;
-    max-width: 1200px;
-    margin: 2rem auto;
-  }
-
-  #company-page-header > div {
-    flex: 1;
-    min-width: 300px;
-  }
-  
-  .ticker-widgets {
-    height: auto;
-  }
+  background-color: var(--background-color);
 }

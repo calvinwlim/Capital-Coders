@@ -62,28 +62,14 @@ export default function CompanyPage() {
           <FiStar />
         </a>
       </div>
-
-      <CompanyLogo />
-
-      <div id="company-page-title">
-        <h2>Company Data for {ticker}</h2>
-      </div>
-
-      <div id="company-page-header">
-        <CompanyProfile ticker={ticker} />
-        <TickerWidgets ticker={ticker} />
-      </div>
-
-      <PriceChart ticker={ticker} />
-
-      <div id="form-explorer-toggle">
+      <div id="company-page-form-toggle-explorer-button">
         <button onClick={toggleFormExplorer} className="toggle-button">
           {isFormExplorerVisible ? "Hide Form Explorer" : "Show Form Explorer"}
         </button>
       </div>
 
       {isFormExplorerVisible && (
-        <div id="form-explorer-container" className="collapsible-section">
+        <div id="company-page-form-explorer-container" className="collapsible-section">
           <FormExplorer cik={cik} />
         </div>
       )}

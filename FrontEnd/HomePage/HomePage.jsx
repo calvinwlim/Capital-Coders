@@ -68,28 +68,30 @@ const HomePage = () => {
       </div>
       <div id="home-page-search-bar">
         <h1>Search for Companies</h1>
-        <form id="home-page-form" onSubmit={handleFormSubmission}>
-          <input
-            type="search"
-            placeholder="Enter company name..."
-            value={searchValue}
-            onChange={handleInputChange}
-            onFocus={() => setShowSuggestions(true)}
-            onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-            aria-label="Search"
-          />
-          <button type="submit">Go</button>
-        </form>
-        {/* Custom Suggestions Dropdown */}
-        {showSuggestions && suggestions.length > 0 && (
-          <ul id="suggestions-list">
-            {suggestions.map((suggestion, index) => (
-              <li key={index} onMouseDown={() => handleSuggestionClick(suggestion)}>
-                {suggestion}
-              </li>
-            ))}
-          </ul>
-        )}
+        <div id="home-page-search-bar-search-section">
+          <form id="home-page-form" onSubmit={handleFormSubmission}>
+            <input
+              type="search"
+              placeholder="Enter A Company's Name Here"
+              value={searchValue}
+              onChange={handleInputChange}
+              onFocus={() => setShowSuggestions(true)}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+              aria-label="Search"
+            />
+            <button type="submit">Enter</button>
+          </form>
+          {/* Custom Suggestions Dropdown */}
+          {showSuggestions && suggestions.length > 0 && (
+            <ul id="suggestions-list">
+              {suggestions.map((suggestion, index) => (
+                <li key={index} onMouseDown={() => handleSuggestionClick(suggestion)}>
+                  {suggestion}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
     </div>
   );

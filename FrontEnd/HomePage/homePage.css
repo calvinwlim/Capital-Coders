@@ -1,125 +1,127 @@
 #home-page {
-	width: 100vw;
-	height: 100vh;
-	background: radial-gradient(circle at top left, var(--primary-color), hsl(222, 20%, 20%));
-	color: var(--inner-font-color);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	padding-top: 5vh;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at top left, var(--primary-color), var(--cool-blue));
+  color: var(--inner-font-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5vh;
 }
 
+/*First Child*/
+
 #navigation-bar {
-	position: fixed;
-	top: 0;
-	width: 100%;
-	display: flex;
-	justify-content: right;
-	padding: 1.0em 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  padding: 1em 0;
 }
 
 #navigation-bar a {
-	color: var(--inner-font-color);
-	font-size: 1.5rem;
-	margin: 0 2rem;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 3.5rem;
-	height: 2.5rem;
-	border-radius: 50%;
+  color: var(--inner-font-color);
+  font-size: 1.5rem;
+  margin: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
 }
 
 #navigation-bar a:hover {
-	color: var(--accent-color);
+  color: var(--accent-color);
 }
 
+/*Second Child*/
+
 #home-page-search-bar {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin-top: 15vh;
-	position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15rem;
+  position: relative;
+  gap: 1rem;
 }
 
 #home-page-search-bar h1 {
-	font-size: 2.5rem;
-	margin-bottom: 2rem;
-	color: var(--inner-font-color);
+  font-size: 5rem;
+  margin-bottom: 2rem;
+  color: var(--inner-font-color);
 }
 
 #home-page-form {
-	display: flex;
-	align-items: center;
-	gap: 1.5rem;
-	position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
 }
 
 #home-page-form input[type="search"] {
-	width: 30rem;
-	padding: 0.75rem 1rem;
-	font-size: 1.25rem;
-	color: var(--inner-font-color);
-	background-color: var(--primary-color);
-	border: 1px solid var(--border-color);
-	border-radius: 20px;
-	outline: none;
-	transition: all 0.3s ease;
+  width: 35rem;
+  height: 4rem;
+  padding: 0.75rem 1rem;
+  font-size: 1.25rem;
+  color: var(--inner-font-color);
+  background-color: var(--primary-color);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  outline: none;
+  transition: all 0.3s ease;
 }
 
 #home-page-form input[type="search"]::placeholder {
-	color: hsl(0, 0%, 60%);
+  color: hsl(0, 0%, 60%);
 }
 
 #home-page-form input[type="search"]:focus {
-	border-color: var(--secondary-color);
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-color: var(--secondary-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 #home-page-form button {
-	padding: 0.75rem 1.5rem;
-	font-size: 1.25rem;
-	cursor: pointer;
-	border-radius: 20px;
-	background: var(--secondary-color);
-	border: none;
-	color: var(--inner-font-color);
-	font-weight: 600;
-	transition: background 0.3s ease, box-shadow 0.3s ease;
+  padding: 1rem 1.5rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  border-radius: 20px;
+  background: hsl(241, 55%, 50%);
+  border: none;
+  color: var(--inner-font-color);
+  font-weight: 600;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 #home-page-form button:hover {
-	background: var(--accent-color);
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  background: var(--accent-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Custom Suggestions Dropdown */
 #suggestions-list {
-	position: absolute;
-	top: 100%;
-	left: 0;
-	width: 30rem;
-	margin-top: 0.5rem;
-	padding: 0;
-	background-color: var(--primary-color);
-	border: 1px solid var(--border-color);
-	border-radius: 10px;
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-	max-height: 15rem;
-	overflow-y: auto;
-	z-index: 1000;
-	list-style: none;
+  display: flex;
+  flex-direction: column;
+  border: black 2rem;
+  width: 35rem;
+  margin-top: 0.5rem;
+  max-height: 15rem;
+  overflow-y: hidden;
+  z-index: 10;
+  background-color: var(--border-color);
+  border-radius: 1rem;
 }
 
 #suggestions-list li {
-	padding: 0.75rem 1rem;
-	font-size: 1.25rem;
-	color: var(--inner-font-color);
-	cursor: pointer;
-	transition: background 0.2s ease;
+  padding: 0.75rem 1rem;
+  font-size: 1.25rem;
+  color: var(--inner-font-color);
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
 #suggestions-list li:hover {
-	background-color: var(--secondary-color);
-	color: var(--inner-font-color);
+  background-color: var(--secondary-color);
+  color: var(--inner-font-color);
 }
