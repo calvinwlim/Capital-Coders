@@ -44,6 +44,13 @@ const AnnualReportAnalysisPage = () => {
   const handleInputChange = async (event) => {
     const currentSearchValue = event.target.value;
     setSearchValue(currentSearchValue);
+
+    if (currentSearchValue.trim() !== "") {
+      setShowSuggestions(true); // Ensure suggestions are shown when typing
+    } else {
+      setShowSuggestions(false); // Hide suggestions if input is empty
+    }
+
     findSuggestions();
   };
 
@@ -92,6 +99,7 @@ const AnnualReportAnalysisPage = () => {
       }
     });
     const shortenedSuggestions = newSuggestions.slice(0, 10);
+    console.log("Suggestions = ", shortenedSuggestions);
     setSuggestions(shortenedSuggestions);
   };
 
@@ -149,7 +157,7 @@ const AnnualReportAnalysisPage = () => {
           )}
         </div>
       </div>
-      {reportSectionHtml && <div id="annual-report-report-content-container" dangerouslySetInnerHTML={{ __html: reportSectionHtml }}></div>}
+      <div id="annual-report-report-content-container">{reportSectionHtml && <div id="annual-report-report-content" dangerouslySetInnerHTML={{ __html: reportSectionHtml }}></div>}</div>
     </div>
   );
 };

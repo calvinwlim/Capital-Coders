@@ -116,7 +116,7 @@
   max-height: 15rem;
   overflow-y: scroll;
   z-index: 10;
-  background-color: var(--border-color);
+  background-color: rgba(25, 28, 71, 1);
   border-radius: 1rem;
 }
 
@@ -140,9 +140,18 @@
   z-index: 1;
   position: absolute;
   margin-top: 3rem;
-  background-color: hsl(0, 0%, 0%);
-  width: 60%;
+  background-color: hsla(0, 0%, 100%, 0.85);
+  color: black;
+  width: 80%;
   margin-top: 20rem;
   height: 30rem;
+  border-radius: 1rem;
+}
+
+#annual-report-report-content {
+  margin: 1rem;
+  padding: 1rem;
+  background-color: hsla(0, 0%, 100%, 0.87);
   overflow-y: scroll;
+  max-height: calc(100% - 2rem); /* Restrict to fit within container */
 }
