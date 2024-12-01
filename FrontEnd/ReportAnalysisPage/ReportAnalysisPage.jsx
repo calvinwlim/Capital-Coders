@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FiUser, FiClock, FiStar } from "react-icons/fi";
 
-import "./AnnualReportAnalysisPage.css";
+import "./ReportAnalysisPage.css";
 
-const AnnualReportAnalysisPage = () => {
+const ReportAnalysisPage = () => {
   const { cik, accessionNumber, ticker, date, form } = useParams();
   const formattedCIK = cik.replace(/^0+/, "");
 
@@ -125,7 +125,7 @@ const AnnualReportAnalysisPage = () => {
   };
 
   return (
-    <div id="annual-report-analysis-page">
+    <div id="report-analysis-page">
       <div id="navigation-bar">
         <a href="Login" aria-label="Login">
           <FiUser />
@@ -138,16 +138,16 @@ const AnnualReportAnalysisPage = () => {
         </a>
       </div>
 
-      <div id="annual-report-analysis-page-search-bar-container">
+      <div id="report-analysis-page-search-bar-container">
         <h1>Search Report For:</h1>
-        <div id="annual-report-analysis-page-search-bar-search-section">
-          <form id="annual-report-analysis-page-form" onSubmit={handleFormSubmission}>
+        <div id="report-analysis-page-search-bar-search-section">
+          <form id="report-analysis-page-form" onSubmit={handleFormSubmission}>
             <input type="search" placeholder="Search For A Section" value={searchValue} onChange={handleInputChange} aria-label="Search" />
             <button type="submit">Enter</button>
           </form>
           {/* Custom Suggestions Dropdown */}
           {showSuggestions && suggestions.length > 0 && (
-            <ul id="annual-report-suggestions-list">
+            <ul id="report-suggestions-list">
               {suggestions.map((suggestion, index) => (
                 <li key={index} onMouseDown={() => handleSuggestionClick(suggestion)}>
                   {suggestion}
@@ -157,30 +157,9 @@ const AnnualReportAnalysisPage = () => {
           )}
         </div>
       </div>
-      <div id="annual-report-report-content-container">{reportSectionHtml && <div id="annual-report-report-content" dangerouslySetInnerHTML={{ __html: reportSectionHtml }}></div>}</div>
+      <div id="report-report-content-container">{reportSectionHtml && <div id="report-report-content" dangerouslySetInnerHTML={{ __html: reportSectionHtml }}></div>}</div>
     </div>
   );
 };
 
-export default AnnualReportAnalysisPage;
-
-/*
-  Extract only the span text
-  They can be nested in tables
-  - Document - Auditor Information
-  - Disclosure - Summary of Significant Accounting Policies
-  - Disclosure - Revenue
-  - Disclosure - Financial Instruments
-  - Disclosure - Property, Plant and Equipment
-  - Disclosure - Debt
-  - Disclosure - Summary of Significant Accounting Policies (Policies)
-  Ignore ones that have (Tables) in their name
-  Maybe also ignore ones that have (Details) in their name
-  Get all - Disclosure - sections then filter
-  */
-
-/*
-  Search bar to search for a longname section
-  Can then fetch it
-  And display it in a box
-  */
+export default ReportAnalysisPage;

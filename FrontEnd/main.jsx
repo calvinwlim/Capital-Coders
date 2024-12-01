@@ -6,7 +6,7 @@ import "./main.css";
 import HomePage from "./HomePage/HomePage";
 import LoginPage from "./LoginPage/LoginPage";
 import CompanyPage from "./CompanyPage/CompanyPage";
-import AnnualReportAnalysisPage from "./AnnualReportAnalysisPage/AnnualReportAnalysisPage";
+import ReportAnalysisPage from "./ReportAnalysisPage/ReportAnalysisPage";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -15,7 +15,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/" element={<HomePage />} />
         <Route path="/CompanyPage/:cik" element={<CompanyPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/AnnualReportAnalysis/:cik/:accessionNumber/:ticker/:date/:form" element={<AnnualReportAnalysisPage />} />
+        <Route path="/ReportAnalysis/:cik/:accessionNumber/:ticker/:date/:form" element={<ReportAnalysisPage />} />
       </Routes>
     </Router>
   </StrictMode>

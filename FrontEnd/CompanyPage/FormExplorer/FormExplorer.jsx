@@ -35,7 +35,7 @@ const FormExplorer = ({ cik, setMostRecentAnnualFormAccessionNumber }) => {
   const handleButtonClick = (accessionNumber, reportDate, form) => {
     const formattedDate = reportDate.replace(/-/g, "");
     const formattedAccessionNumber = accessionNumber.replace(/-/g, "");
-    navigate(`/AnnualReportAnalysis/${cik}/${formattedAccessionNumber}/${ticker}/${formattedDate}/${form}`);
+    navigate(`/ReportAnalysis/${cik}/${formattedAccessionNumber}/${ticker}/${formattedDate}/${form}`);
   };
 
   if (isLoading) return <div className="loading">Loading Forms, please wait...</div>;
