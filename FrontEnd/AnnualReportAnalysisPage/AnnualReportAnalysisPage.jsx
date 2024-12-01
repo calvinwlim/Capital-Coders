@@ -1,39 +1,178 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { FiUser, FiClock, FiStar } from "react-icons/fi";
+
 import "./AnnualReportAnalysisPage.css";
-import { getAnnualStatements } from "./FetchAnnualStatements";
 
 const AnnualReportAnalysisPage = () => {
-  const { cik, accessionNumber, ticker } = useParams();
+  const { cik, accessionNumber, ticker, date, form } = useParams();
   const formattedCIK = cik.replace(/^0+/, "");
 
-  const [incomeStatement, setIncomeStatement] = useState(null);
-  const [balanceSheet, setBalanceSheet] = useState(null);
-  const [cashFlow, setCashFlow] = useState(null);
+  const [searchValue, setSearchValue] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [filingSummary, setFilingSummary] = useState(null);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [forms, setForms] = useState([]);
+  const [reportSectionHtml, setReportSectionHtml] = useState(null);
+
+  const handleFormSubmission = async (event) => {
+    event.preventDefault();
+    let reportSection = "";
+    forms.forEach((form) => {
+      if (form.shortName === searchValue) {
+        reportSection = form.formSection;
+      }
+    });
+    if (reportSection != "") {
+      try {
+        const response = await fetch("http://localhost:3000/getFormSection", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ cik: cik, accessionNumber: accessionNumber, reportSection: reportSection })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setReportSectionHtml(data);
+        }
+      } catch (error) {
+        console.log("Error fetching filing Summary", error);
+      }
+    }
+  };
+
+  const handleInputChange = async (event) => {
+    const currentSearchValue = event.target.value;
+    setSearchValue(currentSearchValue);
+    findSuggestions();
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    setSearchValue(suggestion);
+    setShowSuggestions(false);
+  };
+
+  const fetchFilingSummary = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/getFilingSummary", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cik: cik, accessionNumber: accessionNumber })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setFilingSummary(data);
+        setShowSuggestions(true);
+      }
+    } catch (error) {
+      console.log("Error fetching filing Summary", error);
+    }
+  };
 
   useEffect(() => {
-    if (cik && accessionNumber) {
-      getAnnualStatements(cik, accessionNumber);
+    if (filingSummary === null) {
+      fetchFilingSummary();
     }
-  }, [cik]);
+  }, [cik, accessionNumber]);
 
-  //Modify / Update this
-  const fetchSections = async () => {
+  useEffect(() => {
+    if (filingSummary != null) {
+      parseFilingForm();
+    }
+  }, [filingSummary]);
+
+  const findSuggestions = async () => {
+    let newSuggestions = [];
+    forms.forEach((form) => {
+      let regex = new RegExp(searchValue, "i");
+      let match = form.shortName.match(regex);
+      if (match) {
+        newSuggestions.push(form.shortName);
+      }
+    });
+    const shortenedSuggestions = newSuggestions.slice(0, 10);
+    setSuggestions(shortenedSuggestions);
+  };
+
+  const parseFilingForm = async () => {
+    let tempForms = [];
     try {
-      //Code here
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(filingSummary, "application/xml");
+      const reportSections = xmlDoc.getElementsByTagName("Report");
+
+      for (let i = 0; i < reportSections.length; i++) {
+        const reportSection = reportSections[i];
+        const longName = reportSection.getElementsByTagName("LongName")[0]?.textContent || "N/A";
+        const shortName = reportSection.getElementsByTagName("ShortName")[0]?.textContent || "N/A";
+        const formSection = String(reportSection.getElementsByTagName("HtmlFileName")[0]?.textContent || "");
+        let newForm = { shortName, longName, formSection };
+        tempForms.push(newForm);
+      }
+      setForms(tempForms);
     } catch (error) {
-      console.error("Error fetching sections:", error);
+      console.error("FilingSummaryParser.js: ", error);
     }
   };
 
   return (
     <div id="annual-report-analysis-page">
-      <h1>{ticker} Financial Analysis</h1>
-      {incomeStatement && <div className="section" dangerouslySetInnerHTML={{ __html: incomeStatement }} />}
-      {balanceSheet && <div className="section" dangerouslySetInnerHTML={{ __html: balanceSheet }} />}
-      {cashFlow && <div className="section" dangerouslySetInnerHTML={{ __html: cashFlow }} />}
+      <div id="navigation-bar">
+        <a href="Login" aria-label="Login">
+          <FiUser />
+        </a>
+        <a href="History" aria-label="History">
+          <FiClock />
+        </a>
+        <a href="Favorites" aria-label="Favorites">
+          <FiStar />
+        </a>
+      </div>
+
+      <div id="annual-report-analysis-page-search-bar-container">
+        <h1>Search Report For:</h1>
+        <div id="annual-report-analysis-page-search-bar-search-section">
+          <form id="annual-report-analysis-page-form" onSubmit={handleFormSubmission}>
+            <input type="search" placeholder="Search For A Section" value={searchValue} onChange={handleInputChange} aria-label="Search" />
+            <button type="submit">Enter</button>
+          </form>
+          {/* Custom Suggestions Dropdown */}
+          {showSuggestions && suggestions.length > 0 && (
+            <ul id="annual-report-suggestions-list">
+              {suggestions.map((suggestion, index) => (
+                <li key={index} onMouseDown={() => handleSuggestionClick(suggestion)}>
+                  {suggestion}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+      {reportSectionHtml && <div id="annual-report-report-content-container" dangerouslySetInnerHTML={{ __html: reportSectionHtml }}></div>}
     </div>
   );
 };
 
 export default AnnualReportAnalysisPage;
+
+/*
+  Extract only the span text
+  They can be nested in tables
+  - Document - Auditor Information
+  - Disclosure - Summary of Significant Accounting Policies
+  - Disclosure - Revenue
+  - Disclosure - Financial Instruments
+  - Disclosure - Property, Plant and Equipment
+  - Disclosure - Debt
+  - Disclosure - Summary of Significant Accounting Policies (Policies)
+  Ignore ones that have (Tables) in their name
+  Maybe also ignore ones that have (Details) in their name
+  Get all - Disclosure - sections then filter
+  */
+
+/*
+  Search bar to search for a longname section
+  Can then fetch it
+  And display it in a box
+  */

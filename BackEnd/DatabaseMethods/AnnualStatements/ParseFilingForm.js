@@ -4,7 +4,6 @@ const parseFilingFormFor = async (filingSummary, incomeStatements, balanceSheets
   try {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(filingSummary, "application/xml");
-
     const reportSections = xmlDoc.getElementsByTagName("Report");
 
     for (let i = 0; i < reportSections.length; i++) {

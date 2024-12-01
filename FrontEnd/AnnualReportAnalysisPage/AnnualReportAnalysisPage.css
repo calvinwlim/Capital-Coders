@@ -1,53 +1,148 @@
 #annual-report-analysis-page {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  h1 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .counters {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-  
-  .counter {
-    background-color: #f7f9fc;
-    border: 1px solid #e6e6e6;
-    border-radius: 8px;
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    flex: 1;
-  }
-  
-  .counter p {
-    font-size: 16px;
-    color: #555;
-    margin: 0;
-  }
-  
-  .counter span {
-    display: block;
-    font-size: 20px;
-    font-weight: bold;
-    margin-top: 8px;
-    color: #333;
-  }
-  
-  .section {
-    margin: 20px 0;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #fff;
-  }
-  
+  background: radial-gradient(circle at top left, var(--primary-color), var(--cool-blue));
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 6rem;
+  color: var(--inner-font-color);
+  font-family: "Arial", sans-serif;
+}
+
+/*First Child*/
+
+#navigation-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem 2rem;
+  background-color: var(--primary-color);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 10;
+}
+
+#navigation-bar a {
+  color: var(--inner-font-color);
+  font-size: 1.25rem;
+  margin: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+#navigation-bar a:hover {
+  color: var(--accent-color);
+  background-color: var(--border-color);
+}
+
+/*Second Child*/
+
+#annual-report-analysis-page-search-bar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5rem;
+  position: relative;
+  gap: 1rem;
+}
+
+#annual-report-analysis-page-search-bar-container h1 {
+  font-size: 5rem;
+  margin-bottom: 2rem;
+  color: var(--inner-font-color);
+}
+
+#annual-report-analysis-page-form {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+#annual-report-analysis-page-form input[type="search"] {
+  width: 35rem;
+  height: 4rem;
+  padding: 0.75rem 1rem;
+  font-size: 1.25rem;
+  color: var(--inner-font-color);
+  background-color: var(--primary-color);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+#annual-report-analysis-page-form input[type="search"]::placeholder {
+  color: hsl(0, 0%, 60%);
+}
+
+#annual-report-analysis-page-form input[type="search"]:focus {
+  border-color: var(--secondary-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+#annual-report-analysis-page-form button {
+  padding: 1rem 1.5rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  border-radius: 20px;
+  background: hsl(241, 55%, 50%);
+  border: none;
+  color: var(--inner-font-color);
+  font-weight: 600;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+#annual-report-analysis-page-form button:hover {
+  background: var(--accent-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Custom Suggestions Dropdown */
+#annual-report-suggestions-list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: black 2rem;
+  width: 35rem;
+  margin-top: 0.5rem;
+  max-height: 15rem;
+  overflow-y: scroll;
+  z-index: 10;
+  background-color: var(--border-color);
+  border-radius: 1rem;
+}
+
+#annual-report-suggestions-list li {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  color: var(--inner-font-color);
+  cursor: pointer;
+  transition: background 0.2s ease;
+  z-index: 10;
+}
+
+#annual-report-suggestions-list li:hover {
+  background-color: var(--secondary-color);
+  color: var(--inner-font-color);
+  z-index: 100;
+}
+
+/*Third Child*/
+#annual-report-report-content-container {
+  z-index: 1;
+  position: absolute;
+  margin-top: 3rem;
+  background-color: hsl(0, 0%, 0%);
+  width: 60%;
+  margin-top: 20rem;
+  height: 30rem;
+  overflow-y: scroll;
+}

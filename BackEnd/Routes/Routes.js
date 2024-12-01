@@ -4,6 +4,8 @@ import { getCompanySuggestions } from "../DatabaseMethods/GetCompanySuggestions.
 import { getCompanyCIK } from "../DatabaseMethods/GetCompanyCIK.js";
 import { getCompanyTicker } from "../DatabaseMethods/GetCompanyTicker.js";
 import { getAnnualStatements } from "../DatabaseMethods/AnnualStatements/GetAnnualReportStatements.js";
+import { getFilingSummaryForFrontEnd } from "../DatabaseMethods/AnnualStatements/GetFilingSummary.js";
+import { GetSpecificFormSection } from "../DatabaseMethods/GetFormSection.js";
 
 const expressRouter = express.Router();
 
@@ -14,5 +16,9 @@ expressRouter.post("/getCompanyCIK", getCompanyCIK);
 expressRouter.post("/getCompanyTicker", getCompanyTicker);
 
 expressRouter.post("/getAnnualStatements", getAnnualStatements);
+
+expressRouter.post("/getFilingSummary", getFilingSummaryForFrontEnd);
+
+expressRouter.post("/getFormSection", GetSpecificFormSection);
 
 export default expressRouter;
