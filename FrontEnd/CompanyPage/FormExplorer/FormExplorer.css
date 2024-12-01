@@ -36,8 +36,8 @@
 
 #form-explorer-filter-section button.active,
 #form-explorer-filter-section button:hover {
-  background-color: var(--secondary-color);
-  color: var(--inner-font-color);
+  transform: scale(1.05);
+  background-color: hsl(231, 69%, 43%);
 }
 
 /*Second Child*/

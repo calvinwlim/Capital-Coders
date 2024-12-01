@@ -9,6 +9,8 @@ import CompanyLogo from "../CompanyWidgets/CompanyLogo";
 import CompanyProfile from "../CompanyWidgets/CompanyProfile";
 import { getAnnualStatements } from "./FetchAnnualStatements";
 import { getCompanysTicker } from "./GetCompanysTicker";
+import { StatementTable } from "./Statements/StatementTable";
+import { ExportTable } from "./Statements/ExportStatement";
 
 import "./companyPage.css";
 
@@ -56,43 +58,6 @@ export default function CompanyPage() {
     return <div>Loading...</div>; // Optional: Display a loading state
   }
 
-  const StatementTable = ({ tableData }) => {
-    if (tableData) {
-      console.log("Running Statement Table function, data = ", tableData);
-
-      const { dateRow, metricTaxonomies, metricValues, metrics } = tableData;
-
-      console.log("Date Row Check", dateRow);
-
-      return (
-        <div className="company-page-statement-table">
-          <table>
-            <thead>
-              <tr>
-                <th>Metric</th>
-                <th>Taxonomy</th>
-                {dateRow.map((date, index) => (
-                  <th key={index}>{date}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {metrics.map((metric, index) => (
-                <tr key={index}>
-                  <td>{metric}</td>
-                  <td>{metricTaxonomies[index]}</td>
-                  {metricValues[index].map((value, valueIndex) => (
-                    <td key={valueIndex}>{value}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      );
-    }
-  };
-
   return (
     <div id="company-page">
       <div id="navigation-bar">
@@ -112,6 +77,9 @@ export default function CompanyPage() {
           <button onClick={() => setStatementShown("showIncomeStatement")}>Income Statement</button>
           <button onClick={() => setStatementShown("showBalanceSheet")}>Balance Sheet</button>
           <button onClick={() => setStatementShown("showCashFlow")}>Cash Flow</button>
+          {incomeStatement && statementShown === "showIncomeStatement" && <ExportTable tableData={incomeStatement} />}
+          {balanceSheet && statementShown === "showBalanceSheet" && <ExportTable tableData={balanceSheet} />}
+          {cashFlow && statementShown === "showCashFlow" && <ExportTable tableData={cashFlow} />}
         </div>
         <div id="company-page-statements-statement">
           {statementShown === "showIncomeStatement" && incomeStatement && <StatementTable tableData={incomeStatement} />}
