@@ -5,6 +5,7 @@ import cors from "cors";
 import { fileURLToPath } from "url";
 import { pool } from "./Database/Database.js";
 import routes from "./Routes/Routes.js";
+import dotenv from "dotenv";
 
 import { updateCompanyFactsTable } from "./BulkDataFetchMethods/FetchCompanyFacts.js";
 import { updateSubmissionsTable } from "./BulkDataFetchMethods/FetchSubmissions.js";
@@ -13,6 +14,7 @@ const currentFile = fileURLToPath(import.meta.url);
 const currentDirectory = path.dirname(currentFile);
 
 const app = express();
+dotenv.config();
 app.use(express.static(path.join(currentDirectory, "../FrontEnd/dist")));
 app.use(express.json());
 app.use(cors());

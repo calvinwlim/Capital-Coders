@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FiUser, FiClock, FiStar } from "react-icons/fi";
+import axios from "axios";
 
 import "./ReportAnalysisPage.css";
 
@@ -14,96 +15,28 @@ const ReportAnalysisPage = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [forms, setForms] = useState([]);
   const [reportSectionHtml, setReportSectionHtml] = useState(null);
+  const [simplifiedSummary, setSimplifiedSummary] = useState(null);
+  const [isProcessingSummary, setIsProcessingSummary] = useState(false);
 
-  const handleFormSubmission = async (event) => {
-    event.preventDefault();
-    let reportSection = "";
-    forms.forEach((form) => {
-      if (form.shortName === searchValue) {
-        reportSection = form.formSection;
-      }
-    });
-    if (reportSection != "") {
-      try {
-        const response = await fetch("http://localhost:3000/getFormSection", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ cik: cik, accessionNumber: accessionNumber, reportSection: reportSection })
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setReportSectionHtml(data);
-        }
-      } catch (error) {
-        console.log("Error fetching filing Summary", error);
-      }
-    }
-  };
-
-  const handleInputChange = async (event) => {
-    const currentSearchValue = event.target.value;
-    setSearchValue(currentSearchValue);
-
-    if (currentSearchValue.trim() !== "") {
-      setShowSuggestions(true); // Ensure suggestions are shown when typing
-    } else {
-      setShowSuggestions(false); // Hide suggestions if input is empty
-    }
-
-    findSuggestions();
-  };
-
-  const handleSuggestionClick = (suggestion) => {
-    setSearchValue(suggestion);
-    setShowSuggestions(false);
-  };
-
+  // Fetch filing summary from backend
   const fetchFilingSummary = async () => {
     try {
-      const response = await fetch("http://localhost:3000/getFilingSummary", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cik: cik, accessionNumber: accessionNumber })
+      const response = await axios.post("http://localhost:3000/getFilingSummary", {
+        cik,
+        accessionNumber,
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        setFilingSummary(data);
+      if (response.status === 200) {
+        setFilingSummary(response.data);
         setShowSuggestions(true);
       }
     } catch (error) {
-      console.log("Error fetching filing Summary", error);
+      console.error("Error fetching filing summary:", error);
     }
   };
 
-  useEffect(() => {
-    if (filingSummary === null) {
-      fetchFilingSummary();
-    }
-  }, [cik, accessionNumber]);
-
-  useEffect(() => {
-    if (filingSummary != null) {
-      parseFilingForm();
-    }
-  }, [filingSummary]);
-
-  const findSuggestions = async () => {
-    let newSuggestions = [];
-    forms.forEach((form) => {
-      let regex = new RegExp(searchValue, "i");
-      let match = form.shortName.match(regex);
-      if (match) {
-        newSuggestions.push(form.shortName);
-      }
-    });
-    const shortenedSuggestions = newSuggestions.slice(0, 10);
-    console.log("Suggestions = ", shortenedSuggestions);
-    setSuggestions(shortenedSuggestions);
-  };
-
-  const parseFilingForm = async () => {
+  // Parse filing summary into forms
+  const parseFilingForm = () => {
     let tempForms = [];
     try {
       const parser = new DOMParser();
@@ -115,46 +48,123 @@ const ReportAnalysisPage = () => {
         const longName = reportSection.getElementsByTagName("LongName")[0]?.textContent || "N/A";
         const shortName = reportSection.getElementsByTagName("ShortName")[0]?.textContent || "N/A";
         const formSection = String(reportSection.getElementsByTagName("HtmlFileName")[0]?.textContent || "");
-        let newForm = { shortName, longName, formSection };
-        tempForms.push(newForm);
+        tempForms.push({ shortName, longName, formSection });
       }
       setForms(tempForms);
     } catch (error) {
-      console.error("FilingSummaryParser.js: ", error);
+      console.error("Error parsing filing summary:", error);
     }
   };
 
-  const handleDownload = async () => {
-    try {
-      if (!reportSectionHtml) {
-        return;
+  // Handle form submission
+  const handleFormSubmission = async (event) => {
+    event.preventDefault();
+    let reportSection = "";
+    forms.forEach((form) => {
+      if (form.shortName === searchValue) {
+        reportSection = form.formSection;
       }
+    });
 
-      // Create a Blob from the HTML content
-      const blob = new Blob([reportSectionHtml], { type: "text/html" });
+    if (reportSection) {
+      try {
+        const response = await axios.post("http://localhost:3000/getFormSection", {
+          cik,
+          accessionNumber,
+          reportSection,
+        });
 
-      // Create a download link
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-
-      // Set the file name and URL
-      link.href = url;
-      link.download = `report-section-${formattedCIK}-${accessionNumber}.html`;
-
-      // Append the link, trigger download, and remove it
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      // Revoke the object URL to free up memory
-      URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Error downloading the report section:", error);
+        if (response.status === 200) {
+          setReportSectionHtml(response.data);
+          setSimplifiedSummary(null); // Clear any previous summary
+        }
+      } catch (error) {
+        console.error("Error fetching report section:", error);
+      }
     }
   };
+
+  // Fetch suggestions based on user input
+  const findSuggestions = () => {
+    let newSuggestions = [];
+    forms.forEach((form) => {
+      const regex = new RegExp(searchValue, "i");
+      if (form.shortName.match(regex)) {
+        newSuggestions.push(form.shortName);
+      }
+    });
+    setSuggestions(newSuggestions.slice(0, 10));
+  };
+
+  const handleInputChange = (event) => {
+    const value = event.target.value;
+    setSearchValue(value);
+
+    if (value.trim() !== "") {
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+    }
+
+    findSuggestions();
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    setSearchValue(suggestion);
+    setShowSuggestions(false);
+  };
+
+  const handleDownload = () => {
+    if (!reportSectionHtml) return;
+
+    const blob = new Blob([reportSectionHtml], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `report-section-${formattedCIK}-${accessionNumber}.html`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  // Translate report section
+  const translateReportSection = async () => {
+    if (!reportSectionHtml) return;
+
+    try {
+      setIsProcessingSummary(true);
+      const response = await axios.post("http://localhost:3000/getTranslation", {
+        htmlContent: reportSectionHtml,
+      });
+
+      if (response.status === 200) {
+        setSimplifiedSummary(response.data.summary);
+      }
+    } catch (error) {
+      console.error("Error translating report section:", error);
+    } finally {
+      setIsProcessingSummary(false);
+    }
+  };
+
+  // Fetch filing summary when the component mounts
+  useEffect(() => {
+    if (!filingSummary) {
+      fetchFilingSummary();
+    }
+  }, [filingSummary]);
+
+  // Parse filing summary when it's fetched
+  useEffect(() => {
+    if (filingSummary) {
+      parseFilingForm();
+    }
+  }, [filingSummary]);
 
   return (
     <div id="report-analysis-page">
+      {/* Navigation Bar */}
       <div id="navigation-bar">
         <a href="Login" aria-label="Login">
           <FiUser />
@@ -167,27 +177,53 @@ const ReportAnalysisPage = () => {
         </a>
       </div>
 
+      {/* Search Bar */}
       <div id="report-analysis-page-search-bar-container">
         <h1>Search Report For:</h1>
-        <div id="report-analysis-page-search-bar-search-section">
-          <form id="report-analysis-page-form" onSubmit={handleFormSubmission}>
-            <input type="search" placeholder="Search For A Section" value={searchValue} onChange={handleInputChange} aria-label="Search" />
-            <button type="submit">Enter</button>
-            <button onClick={handleDownload}>Download</button>
-          </form>
-          {/* Custom Suggestions Dropdown */}
-          {showSuggestions && suggestions.length > 0 && (
-            <ul id="report-suggestions-list">
-              {suggestions.map((suggestion, index) => (
-                <li key={index} onMouseDown={() => handleSuggestionClick(suggestion)}>
-                  {suggestion}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        <form id="report-analysis-page-form" onSubmit={handleFormSubmission}>
+          <input
+            type="search"
+            placeholder="Search For A Section"
+            value={searchValue}
+            onChange={handleInputChange}
+            aria-label="Search"
+          />
+          <button type="submit">Enter</button>
+          <button onClick={handleDownload}>Download</button>
+        </form>
+        {showSuggestions && suggestions.length > 0 && (
+          <ul id="report-suggestions-list">
+            {suggestions.map((suggestion, index) => (
+              <li key={index} onMouseDown={() => handleSuggestionClick(suggestion)}>
+                {suggestion}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
-      <div id="report-report-content-container">{reportSectionHtml && <div id="report-report-content" dangerouslySetInnerHTML={{ __html: reportSectionHtml }}></div>}</div>
+
+      {/* Report Content */}
+      <div id="report-report-content-container">
+        {reportSectionHtml && (
+          <div id="report-report-content" dangerouslySetInnerHTML={{ __html: reportSectionHtml }}></div>
+        )}
+      </div>
+
+      {/* Simplified Summary */}
+      <div id="report-summary-container">
+        {isProcessingSummary ? (
+          <div>Processing summary...</div>
+        ) : simplifiedSummary ? (
+          <div>
+            <h2>Simplified Summary</h2>
+            <p>{simplifiedSummary}</p>
+          </div>
+        ) : (
+          reportSectionHtml && (
+            <button onClick={translateReportSection}>Simplify Report Section</button>
+          )
+        )}
+      </div>
     </div>
   );
 };
