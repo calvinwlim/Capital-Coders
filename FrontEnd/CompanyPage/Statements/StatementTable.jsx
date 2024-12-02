@@ -2,11 +2,11 @@ import "./Statements.css";
 
 export const StatementTable = ({ tableData }) => {
   if (tableData) {
-    console.log("Running Statement Table function, data = ", tableData);
+    //console.log("Running Statement Table function, data = ", tableData);
 
     const { dateRow, metricTaxonomies, metricValues, metrics } = tableData;
 
-    console.log("Date Row Check", dateRow);
+    //console.log("Date Row Check", dateRow);
 
     return (
       <div className="company-page-statement-table-container">

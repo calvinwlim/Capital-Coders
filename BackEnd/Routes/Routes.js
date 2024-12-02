@@ -6,6 +6,7 @@ import { getCompanyTicker } from "../DatabaseMethods/GetCompanyTicker.js";
 import { getAnnualStatements } from "../DatabaseMethods/AnnualStatements/GetAnnualReportStatements.js";
 import { getFilingSummaryForFrontEnd } from "../DatabaseMethods/AnnualStatements/GetFilingSummary.js";
 import { GetSpecificFormSection } from "../DatabaseMethods/GetFormSection.js";
+import { getStockPrices } from "../YahooFinanceMethods/GetStockPrices.js";
 
 const expressRouter = express.Router();
 
@@ -20,5 +21,7 @@ expressRouter.post("/getAnnualStatements", getAnnualStatements);
 expressRouter.post("/getFilingSummary", getFilingSummaryForFrontEnd);
 
 expressRouter.post("/getFormSection", GetSpecificFormSection);
+
+expressRouter.post("/getStockPrices", getStockPrices);
 
 export default expressRouter;

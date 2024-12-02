@@ -43,6 +43,55 @@
 }
 
 /*Second Child*/
+#company-page-company-stock-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+#company-page-company-info {
+  font-size: 2rem;
+  margin: 2rem;
+  margin-top: -0.25rem;
+}
+
+#current-price {
+  color: hsl(120, 100%, 33%);
+}
+
+#company-page-company-stock-data {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: -4rem;
+  gap: 1rem;
+}
+
+.stock-data-element {
+  flex: 0 0 30%; /* Fixed width as a percentage of parent */
+  max-width: 16rem; /* Optional: Cap the width if necessary */
+  font-size: 1.25rem;
+  padding: 1.25rem 0.5rem;
+  border-radius: 1rem;
+  background-color: hsla(230, 54%, 20%, 0.897);
+  border: 0.2rem solid hsla(241, 81%, 23%, 0.5); /* White border with 2px thickness */
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+  text-align: center;
+}
+
+.stock-units {
+  color: hsl(120, 100%, 44%);
+  font-size: 1.25rem;
+}
+
+.stock-trades {
+  color: rgb(0, 238, 255);
+  font-size: 1.25rem;
+}
+
+/*Third Child*/
 
 #company-page-statements {
   width: 80%;
@@ -81,7 +130,7 @@
   background-color: hsl(231, 69%, 43%);
 }
 
-/*Third Child*/
+/*Fourth Child*/
 
 #company-page-form-toggle-explorer-button {
   margin-top: 2rem;
@@ -109,7 +158,7 @@
   background-color: hsl(231, 69%, 43%);
 }
 
-/*Third Child*/
+/*Fifth Child*/
 
 #company-page-form-explorer-container {
   width: 80%;

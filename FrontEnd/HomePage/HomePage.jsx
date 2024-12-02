@@ -93,9 +93,6 @@ const HomePage = () => {
           )}
         </div>
       </div>
-      <div class="additional-companies">
-        <TrendingSection />
-      </div>
     </div>
   );
 };
