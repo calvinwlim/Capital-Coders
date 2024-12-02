@@ -55,7 +55,7 @@ export default function CompanyPage() {
   };
 
   if (!ticker) {
-    return <div>Loading...</div>; // Optional: Display a loading state
+    return <div>Loading...</div>;
   }
 
   return (
@@ -71,6 +71,19 @@ export default function CompanyPage() {
           <FiStar />
         </a>
       </div>
+
+      <CompanyLogo ticker={ticker} />
+
+      <div id="company-page-title">
+        <h2>Company Data for {ticker}</h2>
+      </div>
+
+      <div id="company-page-header">
+        <CompanyProfile ticker={ticker} />
+        <TickerWidgets ticker={ticker} />
+      </div>
+
+      <PriceChart ticker={ticker} />
 
       <div id="company-page-statements">
         <div id="company-page-statements-buttons">

@@ -9,8 +9,6 @@
   padding-top: 5vh;
 }
 
-/*First Child*/
-
 #navigation-bar {
   position: fixed;
   top: 0;
@@ -35,8 +33,6 @@
 #navigation-bar a:hover {
   color: var(--accent-color);
 }
-
-/*Second Child*/
 
 #home-page-search-bar {
   display: flex;
@@ -99,7 +95,6 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Custom Suggestions Dropdown */
 #suggestions-list {
   display: flex;
   flex-direction: column;
