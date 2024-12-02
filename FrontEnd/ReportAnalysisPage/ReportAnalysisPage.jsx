@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FiUser, FiClock, FiStar } from "react-icons/fi";
 import axios from "axios";
+import { convert } from "html-to-text";
+
 
 import "./ReportAnalysisPage.css";
 
@@ -128,23 +130,39 @@ const ReportAnalysisPage = () => {
     URL.revokeObjectURL(url);
   };
 
-  // Translate report section
+  const preprocessHtml = (htmlContent) => {
+    // Convert HTML to plain text
+    const text = convert(htmlContent, {
+      wordwrap: 130, // Wrap text at 130 characters per line
+      selectors: [
+        { selector: "img", format: "skip" }, // Skip image elements
+        { selector: "a", options: { ignoreHref: true } }, // Include anchor text, ignore URLs
+      ],
+    });
+
+    // Truncate the text to 8000 characters (adjust if needed)
+    return text.slice(0, 8000);
+  };
+
   const translateReportSection = async () => {
-    if (!reportSectionHtml) return;
-
+    if (!reportSectionHtml) return; 
+  
     try {
-      setIsProcessingSummary(true);
+      setIsProcessingSummary(true); // Set loading state
+  
+      const processedContent = preprocessHtml(reportSectionHtml);
+  
       const response = await axios.post("http://localhost:3000/getTranslation", {
-        htmlContent: reportSectionHtml,
+        htmlContent: processedContent,
       });
-
+  
       if (response.status === 200) {
-        setSimplifiedSummary(response.data.summary);
+        setSimplifiedSummary(response.data.summary); 
       }
     } catch (error) {
       console.error("Error translating report section:", error);
     } finally {
-      setIsProcessingSummary(false);
+      setIsProcessingSummary(false); 
     }
   };
 

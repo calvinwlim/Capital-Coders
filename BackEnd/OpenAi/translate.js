@@ -12,17 +12,21 @@ export const getTranslation = async (request, response) => {
       return response.status(400).json({ error: "HTML content is required" });
     }
 
-    // Prepare the prompt for OpenAI
-    const prompt = `The following is part of a financial report. Simplify it into layman's terms.
+    const prompt = `The following is a section from a financial report. Your task is to:
+1. Extract key metrics related to the stock's performance (e.g., revenue, profit, EPS).
+2. Simplify any technical terms into plain language.
+3. Highlight performance insights (e.g., growth trends, risks, or strengths).
+4. Identify hidden or less obvious insights valuable to investors.
+5. Summarize the stock's performance, including opportunities and risks.
+6. Decide if the stock is bullish, or bearish.
 
 Content:
 ${htmlContent}
 
 Summary:`;
 
-    // Call the OpenAI API using gpt-3.5-turbo
     const responseFromAI = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: "gpt-3.5",
       messages: [
         {
           role: "system",
@@ -37,10 +41,8 @@ Summary:`;
       temperature: 0.7,
     });
 
-    // Extract the summary
     const summary = responseFromAI.choices[0].message.content.trim();
 
-    // Send the summary as the response
     response.json({ summary });
   } catch (error) {
     console.error("Error in getTranslation:", error);
