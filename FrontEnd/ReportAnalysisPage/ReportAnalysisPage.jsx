@@ -124,6 +124,35 @@ const ReportAnalysisPage = () => {
     }
   };
 
+  const handleDownload = async () => {
+    try {
+      if (!reportSectionHtml) {
+        return;
+      }
+
+      // Create a Blob from the HTML content
+      const blob = new Blob([reportSectionHtml], { type: "text/html" });
+
+      // Create a download link
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      // Set the file name and URL
+      link.href = url;
+      link.download = `report-section-${formattedCIK}-${accessionNumber}.html`;
+
+      // Append the link, trigger download, and remove it
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Revoke the object URL to free up memory
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading the report section:", error);
+    }
+  };
+
   return (
     <div id="report-analysis-page">
       <div id="navigation-bar">
@@ -144,6 +173,7 @@ const ReportAnalysisPage = () => {
           <form id="report-analysis-page-form" onSubmit={handleFormSubmission}>
             <input type="search" placeholder="Search For A Section" value={searchValue} onChange={handleInputChange} aria-label="Search" />
             <button type="submit">Enter</button>
+            <button onClick={handleDownload}>Download</button>
           </form>
           {/* Custom Suggestions Dropdown */}
           {showSuggestions && suggestions.length > 0 && (
