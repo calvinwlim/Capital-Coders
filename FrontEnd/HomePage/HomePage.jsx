@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiUser, FiClock, FiStar } from "react-icons/fi";
+import TrendingSection from "../TrendingSection/TrendingSection";
 import "./homePage.css";
 
 const HomePage = () => {
@@ -81,7 +82,6 @@ const HomePage = () => {
             />
             <button type="submit">Enter</button>
           </form>
-          {/* Custom Suggestions Dropdown */}
           {showSuggestions && suggestions.length > 0 && (
             <ul id="suggestions-list">
               {suggestions.map((suggestion, index) => (
@@ -92,6 +92,9 @@ const HomePage = () => {
             </ul>
           )}
         </div>
+      </div>
+      <div class="additional-companies">
+        <TrendingSection />
       </div>
     </div>
   );
