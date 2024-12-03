@@ -190,7 +190,7 @@ export default function CompanyPage() {
     );
   };
 
-  const StockGraph = ({ tradeData }) => {
+  const StockGraphOneMonth = ({ tradeData }) => {
     //timestamps, closedValues, openedValues, isMarketOpen
     let timestamps = tradeData.timestamp;
     let closedValues = tradeData.indicators.quote[0].close;
@@ -282,7 +282,7 @@ export default function CompanyPage() {
 
     return (
       <div id="company-page-stock-graph-container">
-        <h2>{isMarketOpen ? "Live Market Data" : "Closed Market Data"}</h2>
+        <h2>{isMarketOpen ? "One Month Market Data" : "Closed Market Data"}</h2>
         <Line data={chartData} options={options} />
       </div>
     );
@@ -312,7 +312,7 @@ export default function CompanyPage() {
 
       <div id="company-page-company-stock-info">{tradeData && <CompanyInfo tradeData={tradeData} />}</div>
 
-      <div id="company-page-company-stock-graph">{tradeData && <StockGraph tradeData={tradeData} />}</div>
+      <div id="company-page-company-stock-graph">{tradeData && <StockGraphOneMonth tradeData={tradeData} />}</div>
 
       <div id="company-page-statements">
         <div id="company-page-statements-buttons">

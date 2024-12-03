@@ -1,9 +1,5 @@
 import OpenAI from "openai";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY, // Ensure your OpenAI API key is set in your environment variables
-});
-
 export const getTranslation = async (request, response) => {
   try {
     const { htmlContent } = request.body;
@@ -26,19 +22,19 @@ ${htmlContent}
 Summary:`;
 
     const responseFromAI = await openai.chat.completions.create({
-      model: "gpt-3.5",
+      model: "gpt-3.5-turbo",
       messages: [
         {
           role: "system",
-          content: "You are a helpful assistant that simplifies financial reports.",
+          content: "You are a helpful assistant that simplifies financial reports."
         },
         {
           role: "user",
-          content: prompt,
-        },
+          content: prompt
+        }
       ],
       max_tokens: 500,
-      temperature: 0.7,
+      temperature: 0.7
     });
 
     const summary = responseFromAI.choices[0].message.content.trim();
