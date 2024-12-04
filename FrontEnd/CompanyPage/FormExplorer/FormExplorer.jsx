@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { fetchForms } from "./FetchForms";
 import "./FormExplorer.css";
 
-const FormExplorer = ({ cik, setMostRecentAnnualFormAccessionNumber }) => {
+export const FormExplorer = ({ cik, setMostRecentAnnualFormAccessionNumber }) => {
   const navigate = useNavigate();
   const [forms, setForms] = useState([]);
   const [formsDisplayed, setFormsDisplayed] = useState([]);
@@ -91,5 +91,3 @@ const FormExplorer = ({ cik, setMostRecentAnnualFormAccessionNumber }) => {
     </div>
   );
 };
-
-export default FormExplorer;

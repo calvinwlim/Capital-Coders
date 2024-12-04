@@ -1,0 +1,29 @@
+#navigation-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem 2rem;
+  background-color: var(--primary-color);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 10;
+}
+
+#navigation-bar a {
+  color: var(--inner-font-color);
+  font-size: 1.25rem;
+  margin: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+#navigation-bar a:hover {
+  color: var(--accent-color);
+  background-color: var(--border-color);
+}

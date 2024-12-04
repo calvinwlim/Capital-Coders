@@ -1,5 +1,3 @@
-import OpenAI from "openai";
-
 export const getTranslation = async (request, response) => {
   try {
     const { htmlContent } = request.body;

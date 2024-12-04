@@ -1,0 +1,64 @@
+/*Graph and Company Data Together*/
+#company-page-graph-and-data-section {
+  display: flex;
+  flex-direction: row;
+  width: 95%;
+}
+
+/*Graph Container*/
+#company-page-company-stock-graph {
+  width: 50%;
+  height: 43rem;
+}
+
+/*Company Data Container*/
+#company-page-company-data-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/*Company Data H3 Headers*/
+.company-page-company-data-header {
+  font-size: 2rem;
+  padding-top: 0.5rem;
+  text-decoration: underline;
+}
+
+#current-price {
+  color: hsl(120, 100%, 33%);
+}
+
+/*The outtermost DIV container in the actual returned JSX for company data*/
+#company-page-company-data-section-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+/*The container for each one of the boxes*/
+.stock-data-element {
+  margin-top: 2rem;
+  width: 45%;
+  font-size: 1.25rem;
+  padding: 0rem 1.5rem;
+  border-radius: 1rem;
+  background-color: hsla(230, 56%, 14%, 0.897);
+  border: 0.2rem solid hsla(0, 0%, 0%, 0.25); /* White border with 2px thickness */
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+  text-align: left;
+}
+
+.stock-data-element p {
+  margin: 1rem 0rem;
+}
+
+.stock-units {
+  color: hsl(120, 100%, 44%);
+  font-size: 1.25rem;
+}

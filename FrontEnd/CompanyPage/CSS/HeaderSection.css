@@ -1,0 +1,124 @@
+/*Header Section*/
+#company-page-company-header-section {
+  display: flex;
+  width: 95%;
+  flex-direction: column;
+}
+
+#company-page-company-header-section-child-one {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+  border-bottom: 0.1rem solid hsla(0, 0%, 100%, 0.5);
+}
+
+#company-page-company-header-section-child-one h1 {
+  font-size: 2.5rem;
+}
+
+/*Market Prices Component*/
+
+#company-page-company-header-section-child-one button {
+  background-color: hsla(0, 0%, 100%, 0.9);
+  padding: 0.4rem 1rem;
+  border-radius: 1rem;
+  color: var(--primary-color);
+  border: 1rem black;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  margin-bottom: 1rem;
+}
+
+#company-page-company-header-section-child-one button.active,
+#company-page-company-header-section-child-one button:hover {
+  transform: scale(1.05);
+  background-color: hsl(231, 69%, 43%);
+}
+
+#market-price-container {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 0.1rem solid hsla(0, 0%, 100%, 0.5);
+}
+
+.market-price-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.market-price-outer {
+  font-size: 1rem;
+}
+
+.company-page-market-price-regular {
+  display: flex;
+  flex-direction: column;
+}
+
+.company-page-market-price-after-hours {
+  display: flex;
+  flex-direction: column;
+}
+
+.company-page-market-price-regular h3 {
+  font-size: 2.5rem;
+}
+
+.company-page-market-price-regular h4 {
+  font-size: 1.5rem;
+}
+
+.company-page-market-price-regular h5 {
+  font-size: 1.25rem;
+}
+
+.company-page-market-price-after-hours h3 {
+  font-size: 2.5rem;
+}
+
+.company-page-market-price-after-hours h4 {
+  font-size: 1.5rem;
+}
+
+.company-page-market-price-after-hours h5 {
+  font-size: 1.25rem;
+}
+
+.market-price-positive {
+  color: rgb(0, 253, 0);
+}
+
+.market-price-negative {
+  color: rgb(255, 0, 0);
+}
+
+#company-page-navigation-buttons {
+  width: 100%;
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+#company-page-navigation-buttons button {
+  background-color: hsla(0, 0%, 100%, 0);
+  padding: 0.4rem 1rem;
+  border-radius: 1rem;
+  color: white;
+  border: 0.15rem solid hsla(0, 0%, 100%, 0.64);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  margin-bottom: 1rem;
+}
+
+#company-page-navigation-buttons button.active,
+#company-page-navigation-buttons button:hover {
+  transform: scale(1.05);
+  background-color: hsl(231, 69%, 43%);
+}

@@ -1,0 +1,23 @@
+#company-page {
+  background: radial-gradient(circle at top left, var(--primary-color), var(--cool-blue));
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 6rem;
+  color: var(--inner-font-color);
+  font-family: "Arial", sans-serif;
+}
+
+#company-page-loading {
+  background: radial-gradient(circle at top left, var(--primary-color), var(--cool-blue));
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: white;
+}

@@ -1,30 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { Line } from "react-chartjs-2";
 import { useNavigate, useParams } from "react-router-dom";
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
-
-// Register components
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 import { FiUser, FiClock, FiStar } from "react-icons/fi";
-
-import FormExplorer from "./FormExplorer/FormExplorer";
-import PriceChart from "../PriceChart/PriceChart";
-import TickerWidgets from "../CompanyWidgets/TickerWidgets";
-import CompanyLogo from "../CompanyWidgets/CompanyLogo";
-import CompanyProfile from "../CompanyWidgets/CompanyProfile";
-
+import { FormExplorer } from "./FormExplorer/FormExplorer";
 import { getAnnualStatements } from "./FetchAnnualStatements";
 import { getCompanysTicker } from "./GetCompanysTicker";
 import { StatementTable } from "./Statements/StatementTable";
 import { ExportTable } from "./Statements/ExportStatement";
+import { CompanyInfo } from "./CompanyData/CompanyInfo";
+import { StockGraphOneMonth } from "./CompanyData/StockGraphOneMonth";
+import { HeaderSectionComponent } from "./CompanyData/HeaderSection";
 
-import "./companyPage.css";
+import "./CSS/CompanyPage.css";
+import "./CSS/NavigationBar.css";
+import "./CSS/CompanyData.css";
+import "./CSS/CompanyStockGraphs.css";
+import "./CSS/CompanyStatements.css";
+import "./CSS/CompanyFormExplorer.css";
+import "./CSS/HeaderSection.css";
 
 export default function CompanyPage() {
   //Parameters
   const { cik } = useParams();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [ticker, setTicker] = useState(null);
 
   //Company Data Section
@@ -38,12 +36,9 @@ export default function CompanyPage() {
   const [cashFlow, setCashFlow] = useState(null);
   const [statementShown, setStatementShown] = useState("showIncomeStatement");
 
-  //Form Explorer Section
-  const [isFormExplorerVisible, setIsFormExplorerVisible] = useState(true);
-
   useEffect(() => {
     if (cik) {
-      console.log("CIK = ", cik);
+      console.log("Company CIK = ", cik);
       getCompanysTicker(cik, setTicker);
     }
   }, [cik]);
@@ -57,16 +52,16 @@ export default function CompanyPage() {
   useEffect(() => {
     if (ticker) {
       console.log("Ticker = ", ticker);
+
+      // Fetch data immediately
       fetchStockData();
       fetchStockQuote();
-    }
-  }, [ticker]);
 
-  useEffect(() => {
-    if (ticker) {
+      // Set up intervals for periodic fetching
       const stockDataInterval = setInterval(fetchStockData, 10000);
       const stockQuoteInterval = setInterval(fetchStockQuote, 10000);
-      // Cleanup interval when the component unmounts
+
+      // Cleanup intervals on component unmount or when ticker changes
       return () => {
         clearInterval(stockDataInterval);
         clearInterval(stockQuoteInterval);
@@ -120,219 +115,13 @@ export default function CompanyPage() {
     }
   };
 
-  const CompanyInfo = (stockQuote) => {
-    console.log("!23123", stockQuote);
-
-    /*          
-<div className="stock-data-element">
-  <p>
-    Analyst Rating: <span className="stock-units">${stockQuote.tradeData.averageAnalystRating}</span>
-  </p>
-</div>
-
-
-
-          */
-
-    function formatNumberToUnit(num) {
-      if (num >= 1e12) {
-        return (num / 1e12).toFixed(2) + "T"; // Trillion
-      } else if (num >= 1e9) {
-        return (num / 1e9).toFixed(2) + "B"; // Billion
-      } else if (num >= 1e6) {
-        return (num / 1e6).toFixed(2) + "M"; // Million
-      } else if (num >= 1e3) {
-        return (num / 1e3).toFixed(2) + "K"; // Thousand
-      } else {
-        return num.toString(); // Less than 1K, return the original number
-      }
-    }
-
-    let marketCapConversion = formatNumberToUnit(stockQuote.tradeData.marketCap);
-    let sharesOutstanding = formatNumberToUnit(stockQuote.tradeData.sharesOutstanding);
-
-    return (
-      <>
-        <div id="company-page-quote-section-container">
-          <div className="stock-data-element">
-            <h3 id="company-page-valuaton-section">Valuation Metrics</h3>
-            <p>
-              Market Cap <span className="stock-units">${marketCapConversion}</span>
-            </p>
-            <p>
-              Price / Book: <span className="stock-units">{stockQuote.tradeData.priceToBook}</span>
-            </p>
-            <p>
-              P/E (Forward)<span className="stock-units">${stockQuote.tradeData.forwardPE}</span>
-            </p>
-            <p>
-              P/E (Current Year) <span className="stock-units">${stockQuote.tradeData.priceEpsCurrentYear}</span>
-            </p>
-            <p>
-              P/E (Trailing) <span className="stock-units">${stockQuote.tradeData.trailingPE}</span>
-            </p>
-            <p>
-              EPS (TTM) <span className="stock-units">${stockQuote.tradeData.epsTrailingTwelveMonths}</span>
-            </p>
-            <p>
-              EPS (CY) <span className="stock-units">${stockQuote.tradeData.epsCurrentYear}</span>
-            </p>
-            <p>
-              EPS (Forward) <span className="stock-units">${stockQuote.tradeData.epsForward}</span>
-            </p>
-          </div>
-          <div className="stock-data-element">
-            <h3 id="company-page-valuaton-section">Performance Metrics</h3>
-            <p>
-              52 Week Range{" "}
-              <span className="stock-units">
-                ${stockQuote.tradeData.fiftyTwoWeekRange.high} - ${stockQuote.tradeData.fiftyTwoWeekRange.low}
-              </span>
-            </p>
-            <p>
-              Regular Market Change (%) <span className="stock-units">${stockQuote.tradeData.regularMarketChange}</span>
-            </p>
-            <p>
-              200 Day Average <span className="stock-units">${stockQuote.tradeData.twoHundredDayAverage}</span>
-            </p>
-            <p>
-              50 Day Average <span className="stock-units">${stockQuote.tradeData.fiftyDayAverage}</span>
-            </p>
-            <p>
-              Dividend Yield (Per Stock) <span className="stock-units">${stockQuote.tradeData.dividendYield}</span>
-            </p>
-          </div>
-          <div className="stock-data-element">
-            <h3 id="company-page-valuaton-section">Other Metrics</h3>
-            <p>
-              Book Value <span className="stock-units">${stockQuote.tradeData.bookValue}</span>
-            </p>
-            <p>
-              Shares Outstanding <span className="stock-units">{sharesOutstanding}</span>
-            </p>
-            <p>
-              Exchange <span className="stock-units">{stockQuote.tradeData.fullExchangeName}</span>
-            </p>
-          </div>
-          <div className="stock-data-element">
-            <h3 id="company-page-valuaton-section">Analyst Rating</h3>
-            <p>
-              Analyst Rating <span className="stock-units">${stockQuote.tradeData.averageAnalystRating}</span>
-            </p>
-          </div>
-        </div>
-      </>
-    );
-  };
-
-  const StockGraphOneMonth = ({ tradeData }) => {
-    //timestamps, closedValues, openedValues, isMarketOpen
-    let timestamps = tradeData.timestamp;
-    let closedValues = tradeData.indicators.quote[0].close;
-    let openedValues = tradeData.indicators.quote[0].open;
-    let isMarketOpen = true;
-
-    // Choose the dataset based on market status
-    const dataValues = isMarketOpen ? openedValues : closedValues;
-
-    // Data for the chart
-    const chartData = {
-      labels: timestamps.map((timestamp) =>
-        new Date(timestamp * 1000).toLocaleString("en-US", {
-          day: "2-digit",
-          month: "short"
-        })
-      ),
-      datasets: [
-        {
-          label: isMarketOpen ? "Market Hours" : "Closed Values",
-          data: dataValues,
-          borderColor: "rgba(75, 192, 192, 1)", // Line color
-          backgroundColor: "rgba(75, 192, 192, 0.2)", // Fill under the line
-          pointBackgroundColor: "rgba(75, 192, 192, 1)", // Point color
-          pointBorderColor: "#fff", // White border on points
-          pointHoverBackgroundColor: "#fff", // Point color on hover
-          pointHoverBorderColor: "rgba(75, 192, 192, 1)", // Border on hover
-          tension: 0.4 // Smoother line
-        }
-      ]
-    };
-
-    // Chart options
-    const options = {
-      responsive: true,
-      plugins: {
-        legend: {
-          display: true,
-          position: "top",
-          labels: {
-            color: "#fff", // Legend text color
-            font: {
-              size: 18
-            }
-          }
-        },
-        tooltip: {
-          enabled: true,
-          backgroundColor: "rgba(0, 0, 0, 0.7)", // Tooltip background
-          titleColor: "#fff", // Tooltip title color
-          bodyColor: "#fff", // Tooltip body text color
-          cornerRadius: 4 // Rounded tooltip corners
-        }
-      },
-      scales: {
-        x: {
-          ticks: {
-            color: "#fff", // X-axis tick labels color
-            font: {
-              size: 12
-            }
-          },
-          grid: {
-            color: "rgba(200, 200, 200, 0.1)" // Gridline color
-          }
-        },
-        y: {
-          title: {
-            display: true,
-            text: "Stock Value (USD)",
-            color: "#fff", // Y-axis title color
-            font: {
-              size: 16,
-              weight: "bold"
-            }
-          },
-          ticks: {
-            color: "#fff", // Y-axis tick labels color
-            font: {
-              size: 12
-            }
-          },
-          grid: {
-            color: "rgba(200, 200, 200, 0.1)" // Gridline color
-          }
-        }
-      }
-    };
-
-    return (
-      <div id="company-page-stock-graph-container">
-        <h2>{isMarketOpen ? "One Month Market Data" : "Closed Market Data"}</h2>
-        <Line data={chartData} options={options} />
-      </div>
-    );
-  };
-
-  const toggleFormExplorer = () => {
-    setIsFormExplorerVisible(!isFormExplorerVisible);
-  };
-
   if (!ticker) {
-    return <div>Loading...</div>;
+    return <div id="company-page-loading">Loading...</div>;
   }
 
   return (
     <div id="company-page">
+      {/*Navigation Bar*/}
       <div id="navigation-bar">
         <a href="Login" aria-label="Login">
           <FiUser />
@@ -345,19 +134,33 @@ export default function CompanyPage() {
         </a>
       </div>
 
+      {/*Header Section*/}
       {stockQuote != null && (
-        <div id="company-page-company-info">
-          <h1>
-            {stockQuote.shortName} ({ticker}) <span id="current-price">${stockQuote.regularMarketPrice}</span>
-          </h1>
+        <div id="company-page-company-header-section">
+          <div id="company-page-company-header-section-child-one">
+            <h1>
+              {stockQuote.shortName} ({ticker}) <span id="current-price"></span>
+            </h1>
+            <button>+ Favorites</button>
+          </div>
+          {stockQuote != null && <HeaderSectionComponent tradeData={stockQuote} />}
+          <div id="company-page-navigation-buttons">
+            <button>Summary</button>
+            <button>Financials</button>
+            <button>Analysis</button>
+            <button>Earnings</button>
+            <button>Sentiment</button>
+          </div>
         </div>
       )}
 
-      <div id="company-page-all-stock-data">
+      {/*Stock Graph and General Information*/}
+      <div id="company-page-graph-and-data-section">
         <div id="company-page-company-stock-graph">{tradeData && <StockGraphOneMonth tradeData={tradeData} />}</div>
-        <div id="company-page-company-stock-info">{stockQuote != null && <CompanyInfo tradeData={stockQuote} />}</div>
+        <div id="company-page-company-data-info">{stockQuote != null && <CompanyInfo tradeData={stockQuote} />}</div>
       </div>
 
+      {/*Statements and Form Explorer Section*/}
       <div id="company-page-statements-and-explorer">
         <div id="company-page-statements">
           <div id="company-page-statements-buttons">
