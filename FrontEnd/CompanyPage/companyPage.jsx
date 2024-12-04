@@ -120,69 +120,104 @@ export default function CompanyPage() {
     }
   };
 
-  const CompanyInfo = ({ tradeData }) => {
-    let shortName = tradeData.meta.shortName;
-    let ticker = tradeData.meta.symbol;
-    let regularMarketPrice = tradeData.meta.regularMarketPrice;
+  const CompanyInfo = (stockQuote) => {
+    console.log("!23123", stockQuote);
 
-    let yearHigh = tradeData.meta.fiftyTwoWeekHigh;
-    let yearLow = tradeData.meta.fiftyTwoWeekLow;
+    /*          
+<div className="stock-data-element">
+  <p>
+    Analyst Rating: <span className="stock-units">${stockQuote.tradeData.averageAnalystRating}</span>
+  </p>
+</div>
 
-    let regularMarketVolume = tradeData.meta.regularMarketVolume;
-    let regularMarketDayLow = tradeData.meta.regularMarketDayLow;
-    let regularMarketDayHigh = tradeData.meta.regularMarketDayHigh;
-    let chartPreviousClose = tradeData.meta.chartPreviousClose;
 
-    /*
-    epsCurrentYear
-    priceEpsCurrentYear
-    sharesOutstanding
-    bookValue
-    marketCap
-    forwardPE
-    priceToBook
-    postMarketPrice
-    postMarketChange
-    regularMarketChange
-    regularMarketChangePercent
-    */
+
+          */
+
+    function formatNumberToUnit(num) {
+      if (num >= 1e12) {
+        return (num / 1e12).toFixed(2) + "T"; // Trillion
+      } else if (num >= 1e9) {
+        return (num / 1e9).toFixed(2) + "B"; // Billion
+      } else if (num >= 1e6) {
+        return (num / 1e6).toFixed(2) + "M"; // Million
+      } else if (num >= 1e3) {
+        return (num / 1e3).toFixed(2) + "K"; // Thousand
+      } else {
+        return num.toString(); // Less than 1K, return the original number
+      }
+    }
+
+    let marketCapConversion = formatNumberToUnit(stockQuote.tradeData.marketCap);
+    let sharesOutstanding = formatNumberToUnit(stockQuote.tradeData.sharesOutstanding);
 
     return (
       <>
-        <div id="company-page-company-info">
-          <h1>
-            {shortName} ({ticker}) <span id="current-price">${regularMarketPrice}</span>
-          </h1>
-        </div>
-        <div id="company-page-company-stock-data">
+        <div id="company-page-quote-section-container">
           <div className="stock-data-element">
+            <h3 id="company-page-valuaton-section">Valuation Metrics</h3>
             <p>
-              52 Week High: <span className="stock-units">${yearHigh}</span>
+              Market Cap <span className="stock-units">${marketCapConversion}</span>
+            </p>
+            <p>
+              Price / Book: <span className="stock-units">{stockQuote.tradeData.priceToBook}</span>
+            </p>
+            <p>
+              P/E (Forward)<span className="stock-units">${stockQuote.tradeData.forwardPE}</span>
+            </p>
+            <p>
+              P/E (Current Year) <span className="stock-units">${stockQuote.tradeData.priceEpsCurrentYear}</span>
+            </p>
+            <p>
+              P/E (Trailing) <span className="stock-units">${stockQuote.tradeData.trailingPE}</span>
+            </p>
+            <p>
+              EPS (TTM) <span className="stock-units">${stockQuote.tradeData.epsTrailingTwelveMonths}</span>
+            </p>
+            <p>
+              EPS (CY) <span className="stock-units">${stockQuote.tradeData.epsCurrentYear}</span>
+            </p>
+            <p>
+              EPS (Forward) <span className="stock-units">${stockQuote.tradeData.epsForward}</span>
             </p>
           </div>
           <div className="stock-data-element">
+            <h3 id="company-page-valuaton-section">Performance Metrics</h3>
             <p>
-              Trades Today: <span className="stock-trades">{parseInt(regularMarketVolume / regularMarketPrice, 10)}</span>
+              52 Week Range{" "}
+              <span className="stock-units">
+                ${stockQuote.tradeData.fiftyTwoWeekRange.high} - ${stockQuote.tradeData.fiftyTwoWeekRange.low}
+              </span>
+            </p>
+            <p>
+              Regular Market Change (%) <span className="stock-units">${stockQuote.tradeData.regularMarketChange}</span>
+            </p>
+            <p>
+              200 Day Average <span className="stock-units">${stockQuote.tradeData.twoHundredDayAverage}</span>
+            </p>
+            <p>
+              50 Day Average <span className="stock-units">${stockQuote.tradeData.fiftyDayAverage}</span>
+            </p>
+            <p>
+              Dividend Yield (Per Stock) <span className="stock-units">${stockQuote.tradeData.dividendYield}</span>
             </p>
           </div>
           <div className="stock-data-element">
+            <h3 id="company-page-valuaton-section">Other Metrics</h3>
             <p>
-              52 Week Low: <span className="stock-units">${yearLow}</span>
+              Book Value <span className="stock-units">${stockQuote.tradeData.bookValue}</span>
+            </p>
+            <p>
+              Shares Outstanding <span className="stock-units">{sharesOutstanding}</span>
+            </p>
+            <p>
+              Exchange <span className="stock-units">{stockQuote.tradeData.fullExchangeName}</span>
             </p>
           </div>
           <div className="stock-data-element">
+            <h3 id="company-page-valuaton-section">Analyst Rating</h3>
             <p>
-              Previous Close: <span className="stock-units">${chartPreviousClose}</span>
-            </p>
-          </div>
-          <div className="stock-data-element">
-            <p>
-              Todays Low: <span className="stock-units">${regularMarketDayLow}</span>
-            </p>
-          </div>
-          <div className="stock-data-element">
-            <p>
-              Todays High: <span className="stock-units">${regularMarketDayHigh}</span>
+              Analyst Rating <span className="stock-units">${stockQuote.tradeData.averageAnalystRating}</span>
             </p>
           </div>
         </div>
@@ -310,37 +345,39 @@ export default function CompanyPage() {
         </a>
       </div>
 
-      <div id="company-page-company-stock-info">{tradeData && <CompanyInfo tradeData={tradeData} />}</div>
-
-      <div id="company-page-company-stock-graph">{tradeData && <StockGraphOneMonth tradeData={tradeData} />}</div>
-
-      <div id="company-page-statements">
-        <div id="company-page-statements-buttons">
-          <button onClick={() => setStatementShown("showIncomeStatement")}>Income Statement</button>
-          <button onClick={() => setStatementShown("showBalanceSheet")}>Balance Sheet</button>
-          <button onClick={() => setStatementShown("showCashFlow")}>Cash Flow</button>
-          {incomeStatement && statementShown === "showIncomeStatement" && <ExportTable tableData={incomeStatement} />}
-          {balanceSheet && statementShown === "showBalanceSheet" && <ExportTable tableData={balanceSheet} />}
-          {cashFlow && statementShown === "showCashFlow" && <ExportTable tableData={cashFlow} />}
+      {stockQuote != null && (
+        <div id="company-page-company-info">
+          <h1>
+            {stockQuote.shortName} ({ticker}) <span id="current-price">${stockQuote.regularMarketPrice}</span>
+          </h1>
         </div>
-        <div id="company-page-statements-statement">
-          {statementShown === "showIncomeStatement" && incomeStatement && <StatementTable tableData={incomeStatement} />}
-          {statementShown === "showBalanceSheet" && balanceSheet && <StatementTable tableData={balanceSheet} />}
-          {statementShown === "showCashFlow" && cashFlow && <StatementTable tableData={cashFlow} />}
-        </div>
+      )}
+
+      <div id="company-page-all-stock-data">
+        <div id="company-page-company-stock-graph">{tradeData && <StockGraphOneMonth tradeData={tradeData} />}</div>
+        <div id="company-page-company-stock-info">{stockQuote != null && <CompanyInfo tradeData={stockQuote} />}</div>
       </div>
 
-      <div id="company-page-form-toggle-explorer-button">
-        <button onClick={toggleFormExplorer} className="toggle-button">
-          {isFormExplorerVisible ? "Hide Form Explorer" : "Show Form Explorer"}
-        </button>
-      </div>
-
-      {isFormExplorerVisible && (
+      <div id="company-page-statements-and-explorer">
+        <div id="company-page-statements">
+          <div id="company-page-statements-buttons">
+            <button onClick={() => setStatementShown("showIncomeStatement")}>Income Statement</button>
+            <button onClick={() => setStatementShown("showBalanceSheet")}>Balance Sheet</button>
+            <button onClick={() => setStatementShown("showCashFlow")}>Cash Flow</button>
+            {incomeStatement && statementShown === "showIncomeStatement" && <ExportTable tableData={incomeStatement} />}
+            {balanceSheet && statementShown === "showBalanceSheet" && <ExportTable tableData={balanceSheet} />}
+            {cashFlow && statementShown === "showCashFlow" && <ExportTable tableData={cashFlow} />}
+          </div>
+          <div id="company-page-statements-statement">
+            {statementShown === "showIncomeStatement" && incomeStatement && <StatementTable tableData={incomeStatement} />}
+            {statementShown === "showBalanceSheet" && balanceSheet && <StatementTable tableData={balanceSheet} />}
+            {statementShown === "showCashFlow" && cashFlow && <StatementTable tableData={cashFlow} />}
+          </div>
+        </div>
         <div id="company-page-form-explorer-container" className="collapsible-section">
           <FormExplorer cik={cik} setMostRecentAnnualFormAccessionNumber={setMostRecentAnnualFormAccessionNumber} />
         </div>
-      )}
+      </div>
     </div>
   );
 }

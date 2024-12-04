@@ -16,7 +16,7 @@
 }
 
 .company-page-statement-table-taxonomy {
-  width: 40%;
+  width: 35%;
 }
 
 .company-page-statement-table th,
@@ -47,7 +47,7 @@ td {
 
 .company-page-statement-table tbody td {
   padding: 0.1rem 1rem;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 500;
   color: hsla(0, 0%, 100%, 0.9);
 }
@@ -55,4 +55,8 @@ td {
 .company-page-statement-table tbody td.company-page-table-negative-values {
   color: rgb(255, 125, 125);
   font-weight: bold;
+}
+
+company-page-statement-table tbody td.company-page-table-values {
+  font-size: 0.9rem;
 }
