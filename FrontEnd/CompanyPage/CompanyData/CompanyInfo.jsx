@@ -1,3 +1,9 @@
+import Buy from "./Images/Buy.png";
+import StrongBuy from "./Images/StrongBuy.png";
+import Hold from "./Images/Hold.png";
+import Sell from "./Images/Sell.png";
+import StrongSell from "./Images/StrongSell.png";
+
 export const CompanyInfo = (stockQuote) => {
   console.log("Stock Quote Data", stockQuote);
 
@@ -59,8 +65,9 @@ export const CompanyInfo = (stockQuote) => {
         </div>
         <div className="stock-data-element">
           <h3 className="company-page-company-data-header">Analyst Rating</h3>
+          <img src={Hold} alt="Analyst Rating" style={{ width: "22rem", height: "auto" }} />
           <p>
-            Analyst Rating <span className="stock-units">${stockQuote.tradeData.averageAnalystRating}</span>
+            Analyst Rating <span className="stock-units">{stockQuote.tradeData.averageAnalystRating}</span>
           </p>
         </div>
       </div>

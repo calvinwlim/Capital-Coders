@@ -3,7 +3,7 @@ import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-export const StockGraphOneMonth = ({ tradeData }) => {
+export const StockGraph = ({ tradeData }) => {
   //timestamps, closedValues, openedValues, isMarketOpen
   let timestamps = tradeData.timestamp;
   let closedValues = tradeData.indicators.quote[0].close;
@@ -95,7 +95,16 @@ export const StockGraphOneMonth = ({ tradeData }) => {
 
   return (
     <div id="company-page-stock-graph-container">
-      <h2>{isMarketOpen ? "One Month Market Data" : "Closed Market Data"}</h2>
+      <div id="company-page-stock-graph-buttons">
+        <button>1D</button>
+        <button>5D</button>
+        <button>1M</button>
+        <button>6M</button>
+        <button>YTD</button>
+        <button>1Y</button>
+        <button>5Y</button>
+        <button>All</button>
+      </div>
       <Line data={chartData} options={options} />
     </div>
   );

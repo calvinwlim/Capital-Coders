@@ -8,7 +8,7 @@ import { getCompanysTicker } from "./GetCompanysTicker";
 import { StatementTable } from "./Statements/StatementTable";
 import { ExportTable } from "./Statements/ExportStatement";
 import { CompanyInfo } from "./CompanyData/CompanyInfo";
-import { StockGraphOneMonth } from "./CompanyData/StockGraphOneMonth";
+import { StockGraph } from "./CompanyData/StockGraph";
 import { HeaderSectionComponent } from "./CompanyData/HeaderSection";
 
 import "./CSS/CompanyPage.css";
@@ -156,7 +156,7 @@ export default function CompanyPage() {
 
       {/*Stock Graph and General Information*/}
       <div id="company-page-graph-and-data-section">
-        <div id="company-page-company-stock-graph">{tradeData && <StockGraphOneMonth tradeData={tradeData} />}</div>
+        <div id="company-page-company-stock-graph">{tradeData && <StockGraph tradeData={tradeData} />}</div>
         <div id="company-page-company-data-info">{stockQuote != null && <CompanyInfo tradeData={stockQuote} />}</div>
       </div>
 

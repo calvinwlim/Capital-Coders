@@ -8,7 +8,7 @@
 /*Graph Container*/
 #company-page-company-stock-graph {
   width: 50%;
-  height: 43rem;
+  height: 33rem;
 }
 
 /*Company Data Container*/
@@ -16,7 +16,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  height: 33rem;
 }
 
 /*Company Data H3 Headers*/
@@ -37,12 +37,10 @@
   flex-wrap: wrap;
   justify-content: space-evenly;
   gap: 1rem;
-  margin-bottom: 2.5rem;
 }
 
 /*The container for each one of the boxes*/
 .stock-data-element {
-  margin-top: 2rem;
   width: 45%;
   font-size: 1.25rem;
   padding: 0rem 1.5rem;
