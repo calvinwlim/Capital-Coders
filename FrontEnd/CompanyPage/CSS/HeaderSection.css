@@ -117,8 +117,11 @@
   margin-bottom: 1rem;
 }
 
-#company-page-navigation-buttons button.active,
 #company-page-navigation-buttons button:hover {
   transform: scale(1.05);
-  background-color: hsl(231, 69%, 43%);
+  background-color: rgb(36, 36, 83);
+}
+
+#company-page-navigation-buttons button.active-segment {
+  background-color: rgb(36, 36, 83);
 }

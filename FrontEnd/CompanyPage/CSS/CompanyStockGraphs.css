@@ -1,15 +1,23 @@
-#company-page-stock-graph-container {
-  margin: 0rem 3rem 0rem 0rem;
+#company-page-company-stock-graph-container-outer {
+  background-color: hsla(230, 21%, 23%, 0.533);
   padding: 1rem;
-  background-color: hsla(230, 21%, 23%, 0.533); /* Light gray background */
   border-radius: 1rem; /* Rounded corners */
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: hsl(0, 0%, 100%); /* Dark gray */
+  border: 0.2rem solid hsla(0, 0%, 0%, 0.25); /* White border with 2px thickness */
+}
+
+#company-page-stock-graph-container {
+  padding: 0rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
 }
 
 #company-page-stock-graph-buttons {

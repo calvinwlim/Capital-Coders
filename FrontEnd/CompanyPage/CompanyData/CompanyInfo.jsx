@@ -4,9 +4,7 @@ import Hold from "./Images/Hold.png";
 import Sell from "./Images/Sell.png";
 import StrongSell from "./Images/StrongSell.png";
 
-export const CompanyInfo = (stockQuote) => {
-  console.log("Stock Quote Data", stockQuote);
-
+export const CompanyInfo = ({ stockQuote }) => {
   function formatNumberToUnit(num) {
     if (num >= 1e12) {
       return (num / 1e12).toFixed(2) + "T"; // Trillion
@@ -21,53 +19,72 @@ export const CompanyInfo = (stockQuote) => {
     }
   }
 
-  let marketCapConversion = formatNumberToUnit(stockQuote.tradeData.marketCap);
-  let sharesOutstanding = formatNumberToUnit(stockQuote.tradeData.sharesOutstanding);
+  function capToTwoDecimals(num) {
+    return Math.floor(num * 100) / 100;
+  }
+
+  let marketCapConversion = formatNumberToUnit(stockQuote.marketCap);
+  let sharesOutstanding = formatNumberToUnit(stockQuote.sharesOutstanding);
+  let displayedRating = Hold;
+
+  if (/hold/i.test(stockQuote.averageAnalystRating)) {
+    displayedRating = Hold;
+  }
+  if (/buy/i.test(stockQuote.averageAnalystRating)) {
+    displayedRating = Buy;
+  }
+  if (/sell/i.test(stockQuote.averageAnalystRating)) {
+    displayedRating = Sell;
+  }
+  if (/strong\s*buy/i.test(stockQuote.averageAnalystRating)) {
+    displayedRating = StrongBuy;
+  }
+  if (/strong\s*sell/i.test(stockQuote.averageAnalystRating)) {
+    displayedRating = StrongSell;
+  }
 
   return (
     <>
       <div id="company-page-company-data-section-container">
         <div className="stock-data-element">
-          <h3 className="company-page-company-data-header">Valuation Metrics</h3>
           <p>
-            Market Cap <span className="stock-units">${marketCapConversion}</span>
+            Market Cap <span className="stock-units">{marketCapConversion}</span>
           </p>
           <p>
-            Price / Book: <span className="stock-units">{stockQuote.tradeData.priceToBook}</span>
+            Book Value <span className="stock-units">{capToTwoDecimals(stockQuote.bookValue)}</span>
           </p>
           <p>
-            P/E (Forward)<span className="stock-units">${stockQuote.tradeData.forwardPE}</span>
+            Price / Book: <span className="stock-units">{capToTwoDecimals(stockQuote.priceToBook)}</span>
           </p>
           <p>
-            P/E (Current Year) <span className="stock-units">${stockQuote.tradeData.priceEpsCurrentYear}</span>
+            P/E (Forward) <span className="stock-units">{capToTwoDecimals(stockQuote.forwardPE)}</span>
           </p>
           <p>
-            P/E (Trailing) <span className="stock-units">${stockQuote.tradeData.trailingPE}</span>
+            P/E (Current Year) <span className="stock-units">{capToTwoDecimals(stockQuote.priceEpsCurrentYear)}</span>
           </p>
           <p>
-            EPS (TTM) <span className="stock-units">${stockQuote.tradeData.epsTrailingTwelveMonths}</span>
+            P/E (Trailing) <span className="stock-units">{capToTwoDecimals(stockQuote.trailingPE)}</span>
           </p>
           <p>
-            EPS (CY) <span className="stock-units">${stockQuote.tradeData.epsCurrentYear}</span>
+            EPS (TTM) <span className="stock-units">{capToTwoDecimals(stockQuote.epsTrailingTwelveMonths)}</span>
           </p>
           <p>
-            EPS (Forward) <span className="stock-units">${stockQuote.tradeData.epsForward}</span>
+            EPS (CY) <span className="stock-units">{capToTwoDecimals(stockQuote.epsCurrentYear)}</span>
           </p>
           <p>
-            Book Value <span className="stock-units">${stockQuote.tradeData.bookValue}</span>
+            EPS (Forward) <span className="stock-units">{capToTwoDecimals(stockQuote.epsForward)}</span>
           </p>
           <p>
             Shares Outstanding <span className="stock-units">{sharesOutstanding}</span>
           </p>
           <p>
-            Dividend Yield (Per Stock) <span className="stock-units">${stockQuote.tradeData.dividendYield}</span>
+            Dividend Yield (Per Stock) <span className="stock-units">{capToTwoDecimals(stockQuote.dividendYield)}%</span>
           </p>
         </div>
         <div className="stock-data-element">
-          <h3 className="company-page-company-data-header">Analyst Rating</h3>
-          <img src={Hold} alt="Analyst Rating" style={{ width: "22rem", height: "auto" }} />
+          <img src={displayedRating} alt="Analyst Rating" style={{ width: "22rem", height: "auto" }} />
           <p>
-            Analyst Rating <span className="stock-units">{stockQuote.tradeData.averageAnalystRating}</span>
+            Analyst Rating <span className="stock-units">{stockQuote.averageAnalystRating}</span>
           </p>
         </div>
       </div>

@@ -46,14 +46,14 @@ td {
 }
 
 .company-page-statement-table tbody td {
-  padding: 0.1rem 1rem;
+  padding: 0.75rem 1rem;
   font-size: 1.15rem;
   font-weight: 500;
   color: hsla(0, 0%, 100%, 0.9);
 }
 
 .company-page-statement-table tbody td.company-page-table-negative-values {
-  color: rgb(255, 125, 125);
+  color: rgb(255, 76, 76);
   font-weight: bold;
 }
 

@@ -1,5 +1,3 @@
-import "./Statements.css";
-
 export const StatementTable = ({ tableData }) => {
   if (tableData) {
     //console.log("Running Statement Table function, data = ", tableData);

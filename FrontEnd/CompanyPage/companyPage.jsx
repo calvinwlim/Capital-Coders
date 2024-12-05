@@ -8,8 +8,17 @@ import { getCompanysTicker } from "./GetCompanysTicker";
 import { StatementTable } from "./Statements/StatementTable";
 import { ExportTable } from "./Statements/ExportStatement";
 import { CompanyInfo } from "./CompanyData/CompanyInfo";
-import { StockGraph } from "./CompanyData/StockGraph";
+
+import { StockGraphOneDay } from "./CompanyData/StockGraphOneDay";
+import { StockGraphFiveDay } from "./CompanyData/StockGraphFiveDays";
+import { StockGraphOneMonth } from "./CompanyData/StockGraphOneMonth";
+import { StockGraphSixMonth } from "./CompanyData/StockGraphSixMonth";
+import { StockGraphYTD } from "./CompanyData/StockGraphYTD";
+import { StockGraphOneYear } from "./CompanyData/StockGraphOneYear";
+import { StockGraphFiveYear } from "./CompanyData/StockGraphFiveYear";
+
 import { HeaderSectionComponent } from "./CompanyData/HeaderSection";
+import { fetchForms } from "./FetchForms";
 
 import "./CSS/CompanyPage.css";
 import "./CSS/NavigationBar.css";
@@ -18,6 +27,7 @@ import "./CSS/CompanyStockGraphs.css";
 import "./CSS/CompanyStatements.css";
 import "./CSS/CompanyFormExplorer.css";
 import "./CSS/HeaderSection.css";
+import "./CSS/Statements.css";
 
 export default function CompanyPage() {
   //Parameters
@@ -26,7 +36,6 @@ export default function CompanyPage() {
   const [ticker, setTicker] = useState(null);
 
   //Company Data Section
-  const [tradeData, setTradeData] = useState(null);
   const [stockQuote, setStockQuote] = useState(null);
 
   //Statements Section
@@ -36,38 +45,51 @@ export default function CompanyPage() {
   const [cashFlow, setCashFlow] = useState(null);
   const [statementShown, setStatementShown] = useState("showIncomeStatement");
 
+  const [currentButton, setCurrentButton] = useState("Summary");
+
+  const [currentGraph, setCurrentGraph] = useState("1M");
+
   useEffect(() => {
     if (cik) {
-      console.log("Company CIK = ", cik);
+      console.log("Company's Central Index Key Retrieved, Loading Page Now ");
       getCompanysTicker(cik, setTicker);
+      fetchLatestAccessionNumber(cik);
     }
   }, [cik]);
 
   useEffect(() => {
-    if (mostRecentAnnualFormAccessionNumber) {
+    if (mostRecentAnnualFormAccessionNumber != "") {
       fetchStatements();
     }
   }, [mostRecentAnnualFormAccessionNumber]);
 
   useEffect(() => {
     if (ticker) {
-      console.log("Ticker = ", ticker);
-
       // Fetch data immediately
-      fetchStockData();
       fetchStockQuote();
 
       // Set up intervals for periodic fetching
-      const stockDataInterval = setInterval(fetchStockData, 10000);
       const stockQuoteInterval = setInterval(fetchStockQuote, 10000);
 
       // Cleanup intervals on component unmount or when ticker changes
       return () => {
-        clearInterval(stockDataInterval);
         clearInterval(stockQuoteInterval);
       };
     }
   }, [ticker]);
+
+  const fetchLatestAccessionNumber = async (cik) => {
+    try {
+      let forms = await fetchForms(cik);
+      const mostRecent10K = await forms.filter((item) => item.form === "10-K").sort((a, b) => new Date(b.reportDate) - new Date(a.reportDate))[0]; // Sort by reportDate in descending order
+
+      if (mostRecent10K) {
+        setMostRecentAnnualFormAccessionNumber(mostRecent10K.accessionNumber);
+      }
+    } catch (error) {
+      console.error("Failed to fetch accession number");
+    }
+  };
 
   const fetchStatements = async () => {
     if (mostRecentAnnualFormAccessionNumber != "") {
@@ -79,35 +101,17 @@ export default function CompanyPage() {
     }
   };
 
-  const fetchStockData = async () => {
-    try {
-      const response = await fetch(`http://localhost:3000/getStockPrices`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ticker: ticker[0] })
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Stock Data Fetched", data);
-        setTradeData(data);
-      }
-    } catch (error) {
-      console.error("Error fetching Stock Data ", error);
-    }
-  };
-
   const fetchStockQuote = async () => {
     try {
       const response = await fetch(`http://localhost:3000/getStockQuote`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ticker: ticker[0] })
+        body: JSON.stringify({ ticker: ticker })
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Stock Quote Fetched", data);
+        console.log("Stock Quote Refreshed!");
         setStockQuote(data);
       }
     } catch (error) {
@@ -143,11 +147,17 @@ export default function CompanyPage() {
             </h1>
             <button>+ Favorites</button>
           </div>
-          {stockQuote != null && <HeaderSectionComponent tradeData={stockQuote} />}
+          {stockQuote != null && <HeaderSectionComponent stockQuote={stockQuote} />}
           <div id="company-page-navigation-buttons">
-            <button>Summary</button>
-            <button>Financials</button>
-            <button>Analysis</button>
+            <button onMouseDown={() => setCurrentButton("Summary")} className={`${currentButton === "Summary" ? "active-segment" : ""}`}>
+              Summary
+            </button>
+            <button onMouseDown={() => setCurrentButton("Financials")} className={`${currentButton === "Financials" ? "active-segment" : ""}`}>
+              Financials
+            </button>
+            <button onMouseDown={() => setCurrentButton("Reports")} className={`${currentButton === "Reports" ? "active-segment" : ""}`}>
+              Reports
+            </button>
             <button>Earnings</button>
             <button>Sentiment</button>
           </div>
@@ -155,13 +165,34 @@ export default function CompanyPage() {
       )}
 
       {/*Stock Graph and General Information*/}
-      <div id="company-page-graph-and-data-section">
-        <div id="company-page-company-stock-graph">{tradeData && <StockGraph tradeData={tradeData} />}</div>
-        <div id="company-page-company-data-info">{stockQuote != null && <CompanyInfo tradeData={stockQuote} />}</div>
-      </div>
+      {currentButton === "Summary" && (
+        <div id="company-page-graph-and-data-section">
+          <div id="company-page-company-stock-graph">
+            <div id="company-page-company-stock-graph-container-outer">
+              <div id="company-page-stock-graph-buttons">
+                <button onMouseDown={() => setCurrentGraph("1D")}>1D</button>
+                <button onMouseDown={() => setCurrentGraph("5D")}>5D</button>
+                <button onMouseDown={() => setCurrentGraph("1M")}>1M</button>
+                <button onMouseDown={() => setCurrentGraph("6M")}>6M</button>
+                <button onMouseDown={() => setCurrentGraph("YTD")}>YTD</button>
+                <button onMouseDown={() => setCurrentGraph("1Y")}>1Y</button>
+                <button onMouseDown={() => setCurrentGraph("5Y")}>5Y</button>
+              </div>
 
-      {/*Statements and Form Explorer Section*/}
-      <div id="company-page-statements-and-explorer">
+              {ticker != null && ticker != undefined && currentGraph === "1D" && <StockGraphOneDay ticker={ticker} />}
+              {ticker != null && ticker != undefined && currentGraph === "5D" && <StockGraphFiveDay ticker={ticker} />}
+              {ticker != null && ticker != undefined && currentGraph === "1M" && <StockGraphOneMonth ticker={ticker} />}
+              {ticker != null && ticker != undefined && currentGraph === "6M" && <StockGraphSixMonth ticker={ticker} />}
+              {ticker != null && ticker != undefined && currentGraph === "YTD" && <StockGraphYTD ticker={ticker} />}
+              {ticker != null && ticker != undefined && currentGraph === "1Y" && <StockGraphOneYear ticker={ticker} />}
+              {ticker != null && ticker != undefined && currentGraph === "5Y" && <StockGraphFiveYear ticker={ticker} />}
+            </div>
+          </div>
+          <div id="company-page-company-data-info">{stockQuote != null && <CompanyInfo stockQuote={stockQuote} />}</div>
+        </div>
+      )}
+
+      {currentButton === "Financials" && (
         <div id="company-page-statements">
           <div id="company-page-statements-buttons">
             <button onClick={() => setStatementShown("showIncomeStatement")}>Income Statement</button>
@@ -177,10 +208,15 @@ export default function CompanyPage() {
             {statementShown === "showCashFlow" && cashFlow && <StatementTable tableData={cashFlow} />}
           </div>
         </div>
-        <div id="company-page-form-explorer-container" className="collapsible-section">
-          <FormExplorer cik={cik} setMostRecentAnnualFormAccessionNumber={setMostRecentAnnualFormAccessionNumber} />
+      )}
+
+      {currentButton === "Reports" && (
+        <div id="company-page-form-explorer">
+          <div id="company-page-form-explorer-container" className="collapsible-section">
+            <FormExplorer cik={cik} setMostRecentAnnualFormAccessionNumber={setMostRecentAnnualFormAccessionNumber} />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

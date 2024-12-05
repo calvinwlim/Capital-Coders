@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchForms } from "./FetchForms";
-import "./FormExplorer.css";
 
 export const FormExplorer = ({ cik, setMostRecentAnnualFormAccessionNumber }) => {
   const navigate = useNavigate();

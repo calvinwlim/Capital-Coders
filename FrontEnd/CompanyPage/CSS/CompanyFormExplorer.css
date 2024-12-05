@@ -1,5 +1,127 @@
-#company-page-form-explorer-container {
-  width: 80%;
+#company-page-form-explorer {
+  width: 75%;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  background-color: hsla(229, 21%, 16%, 0.533);
   border-radius: 1rem;
+}
+
+#form-explorer-page {
+  background-color: hsla(230, 21%, 23%, 0.533);
+  font-family: Arial, sans-serif;
+  padding: 1.25rem;
+  color: var(--primary-color);
+}
+
+/*First Child*/
+
+#form-explorer-filter-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: 1rem;
+}
+
+#form-explorer-filter-section h3 {
+  color: hsla(0, 0%, 100%, 0.9);
+  font-size: 1.5rem;
+}
+
+#form-explorer-filter-section button {
+  background-color: hsla(0, 0%, 100%, 0.9);
+  padding: 0.4rem 1rem;
+  border-radius: 1rem;
+  color: var(--primary-color);
+  border: 1rem black;
+  font-size: 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+#form-explorer-filter-section button.active,
+#form-explorer-filter-section button:hover {
+  transform: scale(1.05);
+  background-color: hsl(231, 69%, 43%);
+}
+
+/*Second Child*/
+
+#form-explorer-table-container {
+  margin-top: 1rem;
+  width: 100%;
+  max-height: 30rem;
+  overflow-y: auto;
+}
+
+#form-explorer-table {
+  width: 100%;
+  background-color: hsla(245, 43%, 27%, 0.1);
+  border-collapse: collapse;
+}
+
+#form-explorer-table thead th {
+  background-color: hsla(0, 0%, 100%, 0.9);
+  position: sticky;
+  top: 0;
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+#form-explorer-table tbody tr {
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+#form-explorer-table tbody tr:hover {
+  background-color: hsla(0, 0%, 100%, 0.5);
+}
+
+#form-explorer-table tbody td {
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: hsla(0, 0%, 100%, 0.9);
+}
+/*Tables Buttons*/
+
+.view-report-button {
+  background-color: hsla(0, 0%, 100%, 0.9);
+  border: none;
+  color: hsla(0, 0%, 0%, 0.9);
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background-color 0.5s;
+}
+
+.view-report-button:hover {
+  transform: scale(1.05);
+  background-color: hsl(231, 69%, 43%);
+}
+
+/*Table But If No Data*/
+
+.no-data {
+  text-align: center;
+  color: #999;
+  padding: 1.5rem;
+}
+
+.loading {
+  font-size: 16px;
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+#form-explorer-toggle {
+  text-align: center;
+  margin: 20px 0;
 }

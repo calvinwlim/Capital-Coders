@@ -4,13 +4,13 @@
 
 #company-page-statements {
   width: 95%;
-  margin-top: 1rem;
   display: flex;
   flex-direction: column;
-  background-color: hsla(240, 10%, 10%, 0.5);
+  background-color: hsla(230, 21%, 23%, 0.533);
   border-radius: 1rem;
   padding: 1rem;
 }
+
 #company-page-statements-buttons {
   display: flex;
   flex-direction: row;
@@ -37,5 +37,5 @@
 #company-page-statements-buttons button.active,
 #company-page-statements-buttons button:hover {
   transform: scale(1.05);
-  background-color: hsl(231, 69%, 43%);
+  background-color: hsl(231, 56%, 45%);
 }

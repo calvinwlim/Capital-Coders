@@ -8,7 +8,7 @@ export const getCompanysTicker = async (cik, setTicker) => {
 
     if (response.ok) {
       const fetchedTicker = await response.json();
-      setTicker(fetchedTicker);
+      setTicker(fetchedTicker[0]);
     }
   } catch (error) {
     console.log("Error fetching companys Ticker", error);
