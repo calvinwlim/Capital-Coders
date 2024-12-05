@@ -127,15 +127,22 @@ export default function CompanyPage() {
     <div id="company-page">
       {/*Navigation Bar*/}
       <div id="navigation-bar">
-        <a href="Login" aria-label="Login">
-          <FiUser />
-        </a>
-        <a href="History" aria-label="History">
-          <FiClock />
-        </a>
-        <a href="Favorites" aria-label="Favorites">
-          <FiStar />
-        </a>
+        <div id="navigation-bar-left-side">
+          <a href="/" aria-label="Home">
+            <img src="../Icons/HomePageIcon.png" alt="Home" />
+          </a>
+        </div>
+        <div id="navigation-bar-right-side">
+          <a href="Login" aria-label="Login">
+            <FiUser />
+          </a>
+          <a href="History" aria-label="History">
+            <FiClock />
+          </a>
+          <a href="Favorites" aria-label="Favorites">
+            <FiStar />
+          </a>
+        </div>
       </div>
 
       {/*Header Section*/}
@@ -147,7 +154,7 @@ export default function CompanyPage() {
             </h1>
             <button>+ Favorites</button>
           </div>
-          {stockQuote != null && <HeaderSectionComponent stockQuote={stockQuote} />}
+          {stockQuote != null && <HeaderSectionComponent ticker={ticker} stockQuote={stockQuote} displayedPeriod={currentGraph} />}
           <div id="company-page-navigation-buttons">
             <button onMouseDown={() => setCurrentButton("Summary")} className={`${currentButton === "Summary" ? "active-segment" : ""}`}>
               Summary

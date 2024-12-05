@@ -66,6 +66,21 @@
   flex-direction: column;
 }
 
+#company-page-selected-change {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+
+#company-page-selected-change h4 {
+  font-size: 2rem;
+}
+
+#company-page-selected-change h5 {
+  font-size: 1.5rem;
+}
+
 .company-page-market-price-regular h3 {
   font-size: 2.5rem;
 }

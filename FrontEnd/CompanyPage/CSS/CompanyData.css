@@ -53,3 +53,21 @@
   margin-left: auto;
   font-weight: 600;
 }
+
+.stock-data-element-rating {
+  width: 45%;
+  font-size: 1.25rem;
+  padding: 1.5rem 1.5rem;
+  border-radius: 1rem;
+  background-color: hsla(230, 21%, 23%, 0.533);
+  border: 0.2rem solid hsla(0, 0%, 0%, 0.25); /* White border with 2px thickness */
+  color: rgb(255, 255, 255);
+  height: fit-content;
+  text-align: center;
+}
+
+#analysis-rating-container {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 1rem;
+}

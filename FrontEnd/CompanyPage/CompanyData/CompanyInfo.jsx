@@ -81,8 +81,10 @@ export const CompanyInfo = ({ stockQuote }) => {
             Dividend Yield (Per Stock) <span className="stock-units">{capToTwoDecimals(stockQuote.dividendYield)}%</span>
           </p>
         </div>
-        <div className="stock-data-element">
-          <img src={displayedRating} alt="Analyst Rating" style={{ width: "22rem", height: "auto" }} />
+        <div className="stock-data-element-rating">
+          <div id="analysis-rating-container">
+            <img src={displayedRating} alt="Analyst Rating" id="displayed-rating" />
+          </div>
           <p>
             Analyst Rating <span className="stock-units">{stockQuote.averageAnalystRating}</span>
           </p>

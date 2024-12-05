@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FiUser, FiClock, FiStar } from "react-icons/fi";
-import TrendingSection from "../TrendingSection/TrendingSection";
+import { FiUser, FiClock, FiStar, FiHome } from "react-icons/fi";
 import "./homePage.css";
 
 const HomePage = () => {
@@ -57,15 +56,22 @@ const HomePage = () => {
   return (
     <div id="home-page">
       <div id="navigation-bar">
-        <a href="Login" aria-label="Login">
-          <FiUser />
-        </a>
-        <a href="History" aria-label="History">
-          <FiClock />
-        </a>
-        <a href="Favorites" aria-label="Favorites">
-          <FiStar />
-        </a>
+        <div id="navigation-bar-left-side">
+          <a href="/" aria-label="Home">
+            <img src="../Icons/HomePageIcon.png" alt="Home" />
+          </a>
+        </div>
+        <div id="navigation-bar-right-side">
+          <a href="Login" aria-label="Login">
+            <FiUser />
+          </a>
+          <a href="History" aria-label="History">
+            <FiClock />
+          </a>
+          <a href="Favorites" aria-label="Favorites">
+            <FiStar />
+          </a>
+        </div>
       </div>
       <div id="home-page-search-bar">
         <h1>Search for Companies</h1>

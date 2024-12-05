@@ -197,15 +197,22 @@ const ReportAnalysisPage = () => {
     <div id="report-analysis-page">
       {/* Navigation Bar */}
       <div id="navigation-bar">
-        <a href="Login" aria-label="Login">
-          <FiUser />
-        </a>
-        <a href="History" aria-label="History">
-          <FiClock />
-        </a>
-        <a href="Favorites" aria-label="Favorites">
-          <FiStar />
-        </a>
+        <div id="navigation-bar-left-side">
+          <a href="/" aria-label="Home">
+            <img src="/../../Icons/HomePageIcon.png" alt="Home" />
+          </a>
+        </div>
+        <div id="navigation-bar-right-side">
+          <a href="Login" aria-label="Login">
+            <FiUser />
+          </a>
+          <a href="History" aria-label="History">
+            <FiClock />
+          </a>
+          <a href="Favorites" aria-label="Favorites">
+            <FiStar />
+          </a>
+        </div>
       </div>
       <div id="report-analysis-page-content">
         {reportSectionHtml && (
